@@ -10,14 +10,12 @@ const magicNumber = 6;
 function Login({ dispatchEmail }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [button, setButton] = useState(true);
   const history = useHistory();
 
   const sendToLocalStorage = () => {
     localStorage.setItem('user', JSON.stringify({ email }));
     localStorage.setItem('mealsToken', 1);
     localStorage.setItem('cocktailsToken', 1);
-
     history.push('/foods');
   };
 
@@ -27,19 +25,13 @@ function Login({ dispatchEmail }) {
         type="email"
         placeholder="Email"
         data-testid="email-input"
-        onChange={ ({ target }) => {
-          setEmail(target.value);
-          // setButton(!(valid.test(target.value) && password.length > magicNumber));
-        } }
+        onChange={ ({ target }) => setEmail(target.value) }
       />
       <input
         type="password"
         placeholder="Password"
         data-testid="password-input"
-        onChange={ ({ target }) => {
-          setPassword(target.value);
-          // setButton(!(valid.test(email) && target.value.length > magicNumber));
-        } }
+        onChange={ ({ target }) => setPassword(target.value) }
       />
       <button
         type="button"

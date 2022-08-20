@@ -1,7 +1,6 @@
 import React from 'react';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 import App from '../App';
-// import Login from '../pages/Login';
 import userEvent from "@testing-library/user-event";
 
 describe('Tests the Login component', () => {
