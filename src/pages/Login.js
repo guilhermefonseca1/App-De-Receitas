@@ -10,7 +10,7 @@ const magicNumber = 6;
 function Login({ dispatchEmail }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [button, setButton] = useState(true);
+  // const [button, setButton] = useState(true);
   const history = useHistory();
 
   const sendToLocalStorage = () => {
@@ -29,7 +29,7 @@ function Login({ dispatchEmail }) {
         data-testid="email-input"
         onChange={ ({ target }) => {
           setEmail(target.value);
-          setButton(!(valid.test(target.value) && password.length > magicNumber));
+          // setButton(!(valid.test(target.value) && password.length > magicNumber));
         } }
       />
       <input
@@ -38,13 +38,13 @@ function Login({ dispatchEmail }) {
         data-testid="password-input"
         onChange={ ({ target }) => {
           setPassword(target.value);
-          setButton(!(valid.test(email) && target.value.length > magicNumber));
+          // setButton(!(valid.test(email) && target.value.length > magicNumber));
         } }
       />
       <button
         type="button"
         data-testid="login-submit-btn"
-        disabled={ button }
+        disabled={ !(valid.test(email) && password.length > magicNumber) }
         onClick={ () => {
           dispatchEmail(email);
           sendToLocalStorage();
