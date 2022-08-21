@@ -1,6 +1,8 @@
-// export const LOGIN = 'LOGIN';
+export const LOGIN = 'LOGIN';
 
-// export default emailAction = (payload) => ({
-//   type: LOGIN,
-//   email: payload,
-// });
+const emailAction = (payload) => ({
+  type: LOGIN,
+  email: payload,
+});
+
+export default emailAction;
