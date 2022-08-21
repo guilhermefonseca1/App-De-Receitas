@@ -5,7 +5,7 @@ function Foods() {
   return (
     <div>
       Food
-      <Header />
+      <Header page="Foods" />
     </div>
   );
 }
