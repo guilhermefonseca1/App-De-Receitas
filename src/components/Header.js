@@ -14,7 +14,7 @@ function Header({ page, search }) {
       <button type="button">
         <img data-testid="profile-top-btn" src={ profileIcon } alt="icon-profile" />
       </button>
-      <h1 data-testid="page-title">{page}</h1>
+      <h1 data-testid="page-title" className="title-page">{page}</h1>
       {
         search
 

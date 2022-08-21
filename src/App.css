@@ -1,12 +1,22 @@
-.meals {
+body {
+  height: 640px;
+  width: 360px;
+}
+
+header {
   align-items: center;
+  background-color: rgb(238, 238, 238);
+  display: flex;
+  flex-flow: row nowrap;
+  height: 80px;
+  justify-content: space-around;
+}
+
+.meals {
   background: #0fa36b;
   color: #464646;
-  display: flex;
-  flex-direction: column;
   font-family: sans-serif;
   height: 100vh;
-  justify-content: center;
   width: 100%;
 }
 
