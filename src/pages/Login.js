@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import emailAction from '../redux/actions';
+import { emailAction } from '../redux/actions';
 
 const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const magicNumber = 6;
