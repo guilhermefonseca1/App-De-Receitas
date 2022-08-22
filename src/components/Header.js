@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header({ page, search }) {
+  const [isToggle, setToggle] = useState(false);
   const history = useHistory();
 
   return (
@@ -16,12 +18,13 @@ function Header({ page, search }) {
       {
         search
 
-            && (
-              <button type="button" onClick={ () => {} }>
-                <img data-testid="search-top-btn" src={ searchIcon } alt="icon-search" />
-              </button>
-            )
+          && (
+            <button type="button" onClick={ () => setToggle(!isToggle) }>
+              <img data-testid="search-top-btn" src={ searchIcon } alt="icon-search" />
+            </button>
+          )
       }
+      { isToggle && <SearchBar />}
     </header>
   );
 }
