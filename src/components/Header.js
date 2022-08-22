@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
 function Header({ page, search }) {
-  // const usePathname = () => {
-  //   const location = useLocation();
-  //   return setTitle(location.pathname.split('/')[1].toUpperCase());
-  // };
   const [isToggle, setToggle] = useState(false);
+  const history = useHistory();
 
   return (
     <header>
-      <button type="button">
+      <button type="button" onClick={ () => history.push('/profile') }>
         <img data-testid="profile-top-btn" src={ profileIcon } alt="icon-profile" />
       </button>
       <h1 data-testid="page-title" className="title-page">{page}</h1>
