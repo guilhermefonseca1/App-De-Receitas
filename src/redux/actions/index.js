@@ -2,6 +2,7 @@ import { mealApi, drinkApi } from '../../services/fetchApi';
 
 export const LOGIN = 'LOGIN';
 export const RECIPE = 'RECIPE';
+export const SEARCHED = 'SEARCHED';
 
 const emailAction = (payload) => ({
   type: LOGIN,
@@ -12,6 +13,11 @@ const getRecipesAction = (data, history) => ({
   type: RECIPE,
   recipes: data,
   history,
+});
+
+const getBoolAction = (bool) => ({
+  type: SEARCHED,
+  searched: bool,
 });
 
 function searchAction(inputValue, order, path) {
@@ -32,10 +38,10 @@ function searchAction(inputValue, order, path) {
         id = drink.drinks[0].idDrink;
         history = `${path}/${id}`;
       }
-
       dispatch(getRecipesAction(drink, history));
     }
+    dispatch(getBoolAction(true));
   };
 }
 
-export { emailAction, searchAction };
+export { emailAction, searchAction, getBoolAction };
