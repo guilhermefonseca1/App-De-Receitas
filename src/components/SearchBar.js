@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { searchAction } from '../redux/actions';
 
 function SearchBar({ dispatchApi }) {
   const [order, setOrder] = useState('');
   const [inputValue, setInputValue] = useState('');
+  const history = useHistory();
+  console.log(history);
 
   return (
     <div>
@@ -33,7 +36,7 @@ function SearchBar({ dispatchApi }) {
           value="ingredient"
           data-testid="ingredient-search-radio"
           name="order"
-          onClick={ ({ target }) => setOrder(target.value) }
+          onClick={ ({ target }) => { setOrder(target.value); } }
         />
         Ingredient
         <input
