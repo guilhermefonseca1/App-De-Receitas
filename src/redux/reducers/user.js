@@ -1,6 +1,6 @@
 import { LOGIN, RECIPE } from '../actions';
 
-const INITIAL_STATE = { email: '', recipes: [] };
+const INITIAL_STATE = { email: '', recipes: [], history: '' };
 
 const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -13,6 +13,7 @@ const user = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       recipes: action.recipes,
+      history: action.history,
     };
   default:
     return state;

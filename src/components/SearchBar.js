@@ -4,11 +4,14 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { searchAction } from '../redux/actions';
 
-function SearchBar({ dispatchApi }) {
+function SearchBar({ dispatchApi, historyToProps }) {
   const [order, setOrder] = useState('');
   const [inputValue, setInputValue] = useState('');
   const { location: { pathname } } = useHistory();
-
+  const history = useHistory();
+  if (historyToProps) {
+    history.push(historyToProps);
+  }
   return (
     <div className="container-search">
       <div className="container-input">
@@ -62,11 +65,26 @@ function SearchBar({ dispatchApi }) {
   );
 }
 
+const mapStateToProps = ({ user }) => ({
+  historyToProps: user.history,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   dispatchApi: (inputValue, order, path) => dispatch(
     searchAction(inputValue, order, path),
   ),
 });
 
-SearchBar.propTypes = { dispatchApi: PropTypes.func.isRequired };
-export default connect(null, mapDispatchToProps)(SearchBar);
+SearchBar.propTypes = {
+  dispatchApi: PropTypes.func.isRequired,
+  idToProps: PropTypes.any,
+  recipesToProps: PropTypes.shape({
+    drinks: PropTypes.shape({
+      length: PropTypes.number,
+    }),
+    meals: PropTypes.shape({
+      length: PropTypes.number,
+    }),
+  }),
+}.isRequired;
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
