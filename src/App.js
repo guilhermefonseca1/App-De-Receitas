@@ -15,10 +15,10 @@ function App() {
     <div className="meals">
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path="/foods" exact component={ Foods } />
-        <Route path="/foods/:id-da-receita" component={ RecipeDetails } />
+        <Route exact path="/foods" component={ Foods } />
+        <Route exact path="/foods/:id" component={ RecipeDetails } />
         <Route
-          path="/foods/:id-da-receita/in-progress"
+          path="/foods/:id/in-progress"
           component={ RecipeInProgress }
         />
         <Route path="/drinks/" exact component={ Drinks } />

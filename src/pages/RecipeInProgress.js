@@ -1,6 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-function RecipeInProgress() {
+function RecipeInProgress(props) {
+  // const getRecipesuser = (data, history) => ({
+  //   type: RECIPE,
+  //   recipes: data,
+  //   history,
+  // });
+  console.log(props);
   return (
     <div>
       Recipe In Progress
@@ -8,8 +15,8 @@ function RecipeInProgress() {
         id="img"
         type="img"
         data-testid="recipe-photo"
-        src={ img }
-        alt={ recipeImg }
+        src=""
+        alt=""
       />
       imagem
       <h1
@@ -43,7 +50,7 @@ function RecipeInProgress() {
       <li
         id="ingridient"
         type="text"
-        data-testid={ `${index}-ingredient-step` }
+        // data-testid={ `${index}-ingredient-step` }
       >
         ingredientes
       </li>
@@ -67,7 +74,7 @@ function RecipeInProgress() {
 }
 
 const mapStateToProps = ({ user }) => ({
-  recipes: action.recipes,
+  recipes: user.recipes,
   historyToProps: user.history,
 });
 
