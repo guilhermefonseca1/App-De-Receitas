@@ -12,6 +12,18 @@ header {
   justify-content: space-around;
 }
 
+footer {
+  align-items: center;
+  background-color: rgb(238, 238, 238);
+  bottom: 0;
+  display: flex;
+  height: 80px;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: fixed;
+  width: 320px;
+}
+
 .meals {
   background: #0fa36b;
   color: #464646;
