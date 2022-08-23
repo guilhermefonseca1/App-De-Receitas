@@ -1,12 +1,12 @@
 import React from 'react';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 import userEvent from "@testing-library/user-event";
-import {screen} from "@testing-library/react"
+import {screen} from "@testing-library/react";
 import Foods from '../pages/Foods';
 
 describe('Tests the Footer component', () => {
   it('Tests if components render correctly',()=> {
-    renderWithRouterAndRedux(<Foods />)
+    renderWithRouterAndRedux(<Foods />);
     const btnDrinks = screen.getByTestId('drinks-bottom-btn')
     const btnFood = screen.getByTestId('food-bottom-btn');
   
@@ -15,9 +15,9 @@ describe('Tests the Footer component', () => {
    
   });
   it('Tests if Footer can be redirect to foods or drinks', ()=> {
-    const {history} = renderWithRouterAndRedux(<Foods />)
+    const {history} = renderWithRouterAndRedux(<Foods />);
 
-    const btnDrinks = screen.getByTestId('drinks-bottom-btn')
+    const btnDrinks = screen.getByTestId('drinks-bottom-btn');
     const btnFood = screen.getByTestId('food-bottom-btn');
 
     userEvent.click(btnDrinks);
