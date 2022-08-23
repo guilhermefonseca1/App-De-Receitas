@@ -8,20 +8,32 @@ const emailAction = (payload) => ({
   email: payload,
 });
 
-const getRecipesAction = (data) => ({
+const getRecipesAction = (data, history) => ({
   type: RECIPE,
   recipes: data,
+  history,
 });
 
 function searchAction(inputValue, order, path) {
   return async (dispatch) => {
+    let id = '';
+    let history = '';
     if (path === '/foods') {
       const meal = await mealApi(inputValue, order);
-      dispatch(getRecipesAction(meal));
+      if (meal.meals.length === 1) {
+        id = meal.meals[0].idMeal;
+        history = `${path}/${id}`;
+      }
+      dispatch(getRecipesAction(meal, history));
     }
     if (path === '/drinks') {
       const drink = await drinkApi(inputValue, order);
-      dispatch(getRecipesAction(drink));
+      if (drink.drinks.length === 1) {
+        id = drink.drinks[0].idDrink;
+        history = `${path}/${id}`;
+      }
+
+      dispatch(getRecipesAction(drink, history));
     }
   };
 }
