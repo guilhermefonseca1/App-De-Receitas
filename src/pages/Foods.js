@@ -6,15 +6,13 @@ import Header from '../components/Header';
 
 function Foods({ mealsToProps, searchToProps }) {
   useEffect(() => { }, [mealsToProps]);
-  if (searchToProps && mealsToProps.meals.length === 0) {
-    global.alert('Sorry, we haven\'t found any recipes for these filters.');
-  }
   const iter = 11;
+  const condition = (mealsToProps !== undefined && mealsToProps.meals !== null);
   return (
     <div>
       <Header page="Foods" />
       <div className="food-card">
-        {searchToProps && (
+        {searchToProps && condition && (
           mealsToProps.meals.map((i, index) => index < iter && (
             <>
               <p data-testid={ `${index}-recipe-card` } />
