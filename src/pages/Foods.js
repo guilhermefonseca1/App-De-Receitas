@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import Recipes from '../components/Recipes';
 
 function Foods({ mealsToProps, searchToProps }) {
   useEffect(() => { }, [mealsToProps]);
@@ -11,8 +12,8 @@ function Foods({ mealsToProps, searchToProps }) {
   return (
     <div>
       <Header page="Foods" />
-      <div className="food-card">
-        {searchToProps && condition && (
+      {/* <div className="food-card">
+        {searchToProps && condition ? (
           mealsToProps.meals.map((i, index) => index < iter && (
             <>
               <p data-testid={ `${index}-recipe-card` } />
@@ -25,9 +26,9 @@ function Foods({ mealsToProps, searchToProps }) {
 
               <p data-testid={ `${index}-card-name` }>{i.strMeal}</p>
             </>
-          )))}
-      </div>
-
+          ))) : <Recipes />}
+      </div> */}
+      <Recipes />
       <Footer />
     </div>
   );

@@ -1,6 +1,10 @@
 export const mealApi = async (inputValue, order) => {
   let endpoint = '';
 
+  if (!order || !inputValue) {
+    endpoint = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+  }
+
   if (order === 'ingredient') {
     endpoint = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputValue}`);
   }
@@ -18,6 +22,10 @@ export const mealApi = async (inputValue, order) => {
 export const drinkApi = async (inputValue, order) => {
   let response = '';
   try {
+    if (!order || !inputValue) {
+      endpoint = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+    }
+
     if (order === 'ingredient') {
       response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputValue}`);
     }
