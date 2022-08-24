@@ -7,11 +7,12 @@ import Footer from '../components/Footer';
 function Drinks({ drinksToProps, searchToProps }) {
   useEffect(() => { }, [drinksToProps]);
   const iter = 12;
+  const condition = (drinksToProps !== undefined && drinksToProps.drinks !== null);
   return (
     <div>
       <Header page="Drinks" />
       <div className="drinks-card">
-        {searchToProps && (
+        {condition && searchToProps && (
           drinksToProps.drinks.map((i, index) => index < iter && (
             <>
               <p data-testid={ `${index}-recipe-card` } />
@@ -24,7 +25,8 @@ function Drinks({ drinksToProps, searchToProps }) {
 
               <p data-testid={ `${index}-card-name` }>{i.strDrink}</p>
             </>
-          )))}
+          ))
+        )}
       </div>
       <Footer />
     </div>

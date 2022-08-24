@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 import App from '../App';
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import userEvent from "@testing-library/user-event";
 import SearchBar from '../components/SearchBar';
 import Foods from '../pages/Foods';
@@ -51,12 +51,10 @@ describe('Tests the Login component', () => {
     userEvent.click(button)
   })
   it('checks if the pathname to page details', () => {
-    const {history, getByTestId} = renderWithRouterAndRedux(<Foods/>)
+    const {getByTestId} = renderWithRouterAndRedux(<Foods/>)
     const search = getByTestId("search-top-btn")
-    // const button = getByTestId("exec-search-btn")
     userEvent.click(search)
-    console.log(search)
-    console.log(history)
+    const location = useLocation()
   })
   
 })

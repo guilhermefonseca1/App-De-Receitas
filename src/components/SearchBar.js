@@ -12,6 +12,7 @@ function SearchBar({ dispatchApi, historyToProps }) {
   if (historyToProps) {
     history.push(historyToProps);
   }
+
   return (
     <div className="container-search">
       <div className="container-input">
