@@ -16,14 +16,14 @@ function App() {
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route path="/foods" exact component={ Foods } />
-        <Route path="/foods/:id-da-receita" component={ RecipeDetails } />
+        <Route path="/foods/:id" component={ RecipeDetails } />
         <Route
-          path="/foods/:id-da-receita/in-progress"
+          path="/foods/:id/in-progress"
           component={ RecipeInProgress }
         />
-        <Route path="/drinks/" exact component={ Drinks } />
-        <Route path="/drinks/:id-da-receita" component={ RecipeDetails } />
-        <Route path="/drinks/:id-da-receita/in-progress" component={ RecipeInProgress } />
+        <Route path="/drinks" exact component={ Drinks } />
+        <Route path="/drinks/:id" exact component={ RecipeDetails } />
+        <Route path="/drinks/:id/in-progress" component={ RecipeInProgress } />
         <Route path="/profile" component={ Profile } />
         <Route path="/done-recipes" component={ DoneRecipes } />
         <Route path="/favorite-recipes" component={ FavoriteRecipes } />
