@@ -11,7 +11,11 @@ function Header({ page, search }) {
 
   return (
     <header>
-      <button type="button" onClick={ () => history.push('/profile') }>
+      <button
+        type="button"
+        onClick={ () => history.push('/profile') }
+        data-testid="profile-btn"
+      >
         <img data-testid="profile-top-btn" src={ profileIcon } alt="icon-profile" />
       </button>
       <h1 data-testid="page-title" className="title-page">{page}</h1>

@@ -1,6 +1,10 @@
-import { LOGIN, RECIPE, DETAILS } from '../actions';
+import { LOGIN, RECIPE, DETAILS, SEARCHED } from '../actions';
 
-const INITIAL_STATE = { email: '', recipes: [], history: '', details: [] };
+const INITIAL_STATE = { email: '',
+  recipes: [],
+  history: '',
+  searched: false,
+  details: [] };
 
 const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -19,6 +23,11 @@ const user = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       details: action.details,
+    };
+  case SEARCHED:
+    return {
+      ...state,
+      searched: action.searched,
     };
   default:
     return state;
