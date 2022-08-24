@@ -35,3 +35,17 @@ export const drinkApi = async (inputValue, order) => {
     console.log(e);
   }
 };
+
+export const mealApiId = async (id) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const response = await fetch(url);
+  const meal = await response.json();
+  return meal;
+};
+
+export const drinkApiId = async (id) => {
+  const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const response = await fetch(url);
+  const drink = await response.json();
+  return drink;
+};
