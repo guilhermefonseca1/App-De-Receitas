@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { recipesAction } from '../redux/actions';
 
-function Recipes({ requestApi, recipes }) {
+function Recipes({ requestApi, recipes, categories }) {
   const iter = 12;
   const { location: { pathname } } = useHistory();
   const path = pathname.split('/');
@@ -13,8 +13,24 @@ function Recipes({ requestApi, recipes }) {
   useEffect(() => {
     requestApi(path[1]);
   }, []);
+
+  const auxCategories = [];
+  categories.forEach((i) => auxCategories.push(Object.values(i)[0]));
+
+  useEffect(() => { }, []);
+
   return (
     <div>
+      {auxCategories.map((i, index) => (
+        <button
+          type="button"
+          key={ index }
+          value={ i }
+          data-testid={ `${i}-category-filter` }
+          // onClick={ ({ target }) => dispatchApi(target.value, 'ingredient', pathname) }
+        >
+          {i}
+        </button>))}
 
       {
         recipes[api]?.length > 0
@@ -42,8 +58,12 @@ Recipes.propTypes = {
 }.isRequired;
 const mapDispatchToProps = (dispatch) => ({
   requestApi: (path) => dispatch(recipesAction(path)),
+  dispatchApi: (inputValue, order, path) => dispatch(
+    searchAction(inputValue, order, path),
+  ),
 });
 const mapStateToProps = (state) => ({
   recipes: state.user.recipes,
+  categories: state.user.categories,
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Recipes);

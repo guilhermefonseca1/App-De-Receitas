@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Recipes from '../components/Recipes';
+import { drinkCategories } from '../services/fetchApi';
 
 function Drinks({ drinksToProps, searchToProps }) {
-  useEffect(() => { }, [drinksToProps]);
+  // useEffect(() => { }, [drinksToProps]);
+
+  useEffect(() => { drinkCategories(); }, []);
   const iter = 12;
   const condition = (drinksToProps !== undefined && drinksToProps.drinks !== null);
   return (
