@@ -1,7 +1,8 @@
-import { mealApi, drinkApi } from '../../services/fetchApi';
+import { mealApi, drinkApi, drinkApiId, mealApiId } from '../../services/fetchApi';
 
 export const LOGIN = 'LOGIN';
 export const RECIPE = 'RECIPE';
+export const DETAILS = 'DETAILS';
 export const SEARCHED = 'SEARCHED';
 export const RECIPES = 'RECIPES';
 
@@ -14,6 +15,11 @@ const getRecipesAction = (data, history) => ({
   type: RECIPE,
   recipes: data,
   history,
+});
+
+const detailsRecipes = (details) => ({
+  type: DETAILS,
+  details,
 });
 
 const getBoolAction = (bool) => ({
@@ -39,7 +45,7 @@ function searchAction(inputValue, order, path) {
         id = meal.meals[0].idMeal;
         history = `${path}/${id}`;
       }
-      dispatch(initialRecipesAction(meal));
+
       dispatch(getRecipesAction(meal, history));
     }
     if (path === '/drinks') {
@@ -48,8 +54,6 @@ function searchAction(inputValue, order, path) {
         id = drink.drinks[0].idDrink;
         history = `${path}/${id}`;
       }
-
-      dispatch(initialRecipesAction(drink));
       dispatch(getRecipesAction(drink, history));
     }
     dispatch(getBoolAction(true));
@@ -59,13 +63,32 @@ function searchAction(inputValue, order, path) {
 function detailsAction(path, id) {
   return async (dispatch) => {
     if (path === 'foods') {
+      const meal = await mealApi();
       const detailsRecipe = await mealApiId(id);
+      dispatch(initialRecipesAction(meal));
       dispatch(detailsRecipes(detailsRecipe.meals));
     }
     if (path === 'drinks') {
+      const drink = await drinkApi();
       const detailsRecipe = await drinkApiId(id);
+      dispatch(initialRecipesAction(drink));
       dispatch(detailsRecipes(detailsRecipe.drinks));
     }
   };
 }
-export { emailAction, searchAction, getBoolAction };
+
+function recipesAction(path) {
+  return async (dispatch) => {
+    if (path === 'foods') {
+      const meal = await mealApi();
+
+      dispatch(initialRecipesAction(meal));
+    }
+    if (path === 'drinks') {
+      const drink = await drinkApi();
+
+      dispatch(initialRecipesAction(drink));
+    }
+  };
+}
+export { emailAction, searchAction, getBoolAction, detailsAction, recipesAction };
