@@ -4,6 +4,7 @@ export const LOGIN = 'LOGIN';
 export const RECIPE = 'RECIPE';
 export const DETAILS = 'DETAILS';
 export const SEARCHED = 'SEARCHED';
+export const RECIPES = 'RECIPES';
 
 const emailAction = (payload) => ({
   type: LOGIN,
@@ -24,6 +25,11 @@ const detailsRecipes = (details) => ({
 const getBoolAction = (bool) => ({
   type: SEARCHED,
   searched: bool,
+});
+
+const initialRecipesAction = (data) => ({
+  type: RECIPES,
+  recipes: data,
 });
 
 function searchAction(inputValue, order, path) {
@@ -57,14 +63,31 @@ function searchAction(inputValue, order, path) {
 function detailsAction(path, id) {
   return async (dispatch) => {
     if (path === 'foods') {
+      const meal = await mealApi();
       const detailsRecipe = await mealApiId(id);
+      dispatch(initialRecipesAction(meal));
       dispatch(detailsRecipes(detailsRecipe.meals));
     }
     if (path === 'drinks') {
+      const drink = await drinkApi();
       const detailsRecipe = await drinkApiId(id);
+      dispatch(initialRecipesAction(drink));
       dispatch(detailsRecipes(detailsRecipe.drinks));
     }
   };
 }
 
-export { emailAction, searchAction, getBoolAction, detailsAction };
+function recipesAction(path) {
+  return async (dispatch) => {
+    if (path === 'foods') {
+      const meal = await mealApi();
+
+      dispatch(initialRecipesAction(meal));
+    }
+    if (path === 'drinks') {
+      const drink = await drinkApi();
+      dispatch(initialRecipesAction(drink));
+    }
+  };
+}
+export { emailAction, searchAction, getBoolAction, detailsAction, recipesAction };
