@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -7,20 +8,17 @@ function Recipes({ requestApi, recipes }) {
   const iter = 12;
   const { location: { pathname } } = useHistory();
   const path = pathname.split('/');
-  console.log(path[1]);
   const keyApi = path[1] === 'foods' ? 'Meal' : 'Drink';
-
+  const api = path[1] === 'foods' ? 'meals' : 'drinks';
   useEffect(() => {
     requestApi(path[1]);
   }, []);
-  console.log(recipes.meals);
-  console.log(recipes.drinks);
   return (
     <div>
 
       {
-        recipes.meals?.length > 0
-        && recipes.meals.map((i, index) => index < iter && (
+        recipes[api]?.length > 0
+        && recipes[api].map((i, index) => index < iter && (
           <div data-testid={ `${index}-recipe-card` } key={ index }>
             <img
               data-testid={ `${index}-card-img` }
@@ -34,27 +32,14 @@ function Recipes({ requestApi, recipes }) {
         ))
       }
 
-
-
-      {/* {
-        recipes.drinks?.length > 0
-        && recipes.drinks.map((i, index) => index < iter && (
-          <div data-testid={ `${index}-recipe-card` } key={ index }>
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ i[`str${keyApi}Thumb`] }
-              alt={ i[`str${keyApi}`] }
-              width="30%"
-            />
-
-            <p data-testid={ `${index}-card-name` }>{i[`str${keyApi}`]}</p>
-          </div>
-        ))
-      } */}
-
     </div>
   );
 }
+
+Recipes.propTypes = {
+  recipes: PropTypes.array,
+  requestApi: PropTypes.func,
+}.isRequired;
 const mapDispatchToProps = (dispatch) => ({
   requestApi: (path) => dispatch(recipesAction(path)),
 });

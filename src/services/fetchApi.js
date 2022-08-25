@@ -23,7 +23,7 @@ export const drinkApi = async (inputValue, order) => {
   let response = '';
   try {
     if (!order || !inputValue) {
-      endpoint = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     }
 
     if (order === 'ingredient') {

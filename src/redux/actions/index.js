@@ -86,7 +86,6 @@ function recipesAction(path) {
     }
     if (path === 'drinks') {
       const drink = await drinkApi();
-
       dispatch(initialRecipesAction(drink));
     }
   };

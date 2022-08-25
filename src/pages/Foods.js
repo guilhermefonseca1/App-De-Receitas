@@ -14,7 +14,7 @@ function Foods({ mealsToProps, searchToProps }) {
       <div className="food-card">
         {searchToProps && condition ? (
           mealsToProps.meals.map((i, index) => index < iter && (
-            <>
+            <div>
               <p data-testid={ `${index}-recipe-card` } />
               <img
                 data-testid={ `${index}-card-img` }
@@ -24,7 +24,7 @@ function Foods({ mealsToProps, searchToProps }) {
               />
 
               <p data-testid={ `${index}-card-name` }>{i.strMeal}</p>
-            </>
+            </div>
           ))) : <Recipes />}
       </div>
       <Footer />
