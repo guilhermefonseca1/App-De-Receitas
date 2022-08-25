@@ -11,6 +11,7 @@ function Recipes({ requestApi, recipes }) {
   const keyApi = path[1] === 'foods' ? 'Meal' : 'Drink';
   const api = path[1] === 'foods' ? 'meals' : 'drinks';
   useEffect(() => {
+    // console.log('recipes path', path);
     requestApi(path[1]);
   }, []);
   return (
