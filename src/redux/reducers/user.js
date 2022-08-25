@@ -1,4 +1,4 @@
-import { LOGIN, RECIPE, DETAILS, SEARCHED } from '../actions';
+import { LOGIN, RECIPE, SEARCHED, RECIPES, DETAILS } from '../actions';
 
 const INITIAL_STATE = { email: '',
   recipes: [],
@@ -28,6 +28,11 @@ const user = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       searched: action.searched,
+    };
+  case RECIPES:
+    return {
+      ...state,
+      recipes: action.recipes,
     };
   default:
     return state;

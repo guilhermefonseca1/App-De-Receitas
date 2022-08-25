@@ -1,20 +1,20 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import Recipes from '../components/Recipes';
 
 function Foods({ mealsToProps, searchToProps }) {
-  useEffect(() => { }, [mealsToProps]);
   const iter = 11;
   const condition = (mealsToProps !== undefined && mealsToProps.meals !== null);
   return (
     <div>
       <Header page="Foods" />
       <div className="food-card">
-        {searchToProps && condition && (
+        {searchToProps && condition ? (
           mealsToProps.meals.map((i, index) => index < iter && (
-            <>
+            <div>
               <p data-testid={ `${index}-recipe-card` } />
               <img
                 data-testid={ `${index}-card-img` }
@@ -24,10 +24,9 @@ function Foods({ mealsToProps, searchToProps }) {
               />
 
               <p data-testid={ `${index}-card-name` }>{i.strMeal}</p>
-            </>
-          )))}
+            </div>
+          ))) : <Recipes />}
       </div>
-
       <Footer />
     </div>
   );
