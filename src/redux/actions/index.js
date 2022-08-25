@@ -78,6 +78,7 @@ function detailsAction(path, id) {
 }
 
 function recipesAction(path) {
+  // console.log('é o path: ', path);
   return async (dispatch) => {
     if (path === 'foods') {
       const meal = await mealApi();

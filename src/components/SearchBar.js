@@ -5,13 +5,11 @@ import { useHistory } from 'react-router-dom';
 import { searchAction } from '../redux/actions';
 
 function SearchBar({ dispatchApi, historyToProps }) {
-  console.log(historyToProps);
   const [order, setOrder] = useState('');
   const [inputValue, setInputValue] = useState('');
   const { location: { pathname } } = useHistory();
   const history = useHistory();
   if (historyToProps) {
-    console.log('entra no if');
     history.push(historyToProps);
   }
 
