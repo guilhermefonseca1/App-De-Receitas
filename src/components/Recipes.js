@@ -6,6 +6,7 @@ import { recipesAction, searchAction } from '../redux/actions';
 
 function Recipes({ requestApi, recipes, categories, dispatchApi }) {
   const [filter, setFilter] = useState(false);
+  const [search, setSearch] = useState(0);
   const iter = 12;
   const { location: { pathname } } = useHistory();
   const path = pathname.split('/');
@@ -25,7 +26,10 @@ function Recipes({ requestApi, recipes, categories, dispatchApi }) {
           value={ i }
           data-testid={ `${i}-category-filter` }
           onClick={ ({ target }) => {
-            dispatchApi(target.value, 'filtered', pathname);
+            dispatchApi(target.value, 'filtered', pathname); setSearch(search + 1);
+            if (search > 0) {
+              setSearch(0); setFilter(!filter);
+            }
           } }
         >
           {i}
