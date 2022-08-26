@@ -7,12 +7,27 @@ function Footer() {
   const history = useHistory();
   return (
     <footer data-testid="footer">
-      <button type="button" onClick={ () => history.push('/drinks') }>
-        <img src={ drinkIcon } alt="drink" data-testid="drinks-bottom-btn" />
+      <button
+        type="button"
+        onClick={ () => history.push('/drinks') }
+      >
+        <img
+          src={ drinkIcon }
+          alt="drink"
+          data-testid="drinks-bottom-btn"
+        />
       </button>
-      <button type="button" onClick={ () => history.push('/foods') }>
-        <img src={ mealIcon } alt="meal" data-testid="food-bottom-btn" />
+      <button
+        type="button"
+        onClick={ () => history.push('/foods') }
+      >
+        <img
+          src={ mealIcon }
+          alt="meal"
+          data-testid="food-bottom-btn"
+        />
       </button>
+
     </footer>
   );
 }

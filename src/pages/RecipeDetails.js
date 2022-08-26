@@ -74,6 +74,15 @@ function RecipeDetails({ requestApi, recipe }) {
             title={ e[`str${item}`] }
           />}
           <p data-testid={ `${i}-recomendation-card` }>Sugestões</p>
+          <button
+            className="startRecipes"
+            type="button"
+            data-testid="start-recipe-btn"
+            name="Start Recipe"
+            htmlFor="Start Recipe"
+          >
+            Start Recipe
+          </button>
         </section>
 
       ))}
