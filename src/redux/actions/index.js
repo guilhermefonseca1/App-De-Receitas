@@ -1,9 +1,12 @@
-import { mealApi, drinkApi, drinkApiId, mealApiId } from '../../services/fetchApi';
+import { mealApi, drinkApi, drinkApiId, mealApiId,
+  mealCategories, drinkCategories } from '../../services/fetchApi';
 
 export const LOGIN = 'LOGIN';
 export const RECIPE = 'RECIPE';
 export const DETAILS = 'DETAILS';
 export const SEARCHED = 'SEARCHED';
+export const RECIPES = 'RECIPES';
+export const CATEGORIES = 'CATEGORIES';
 
 const emailAction = (payload) => ({
   type: LOGIN,
@@ -24,6 +27,12 @@ const detailsRecipes = (details) => ({
 const getBoolAction = (bool) => ({
   type: SEARCHED,
   searched: bool,
+});
+
+const initialRecipesAction = (data, categories) => ({
+  type: RECIPES,
+  recipes: data,
+  categories,
 });
 
 function searchAction(inputValue, order, path) {
@@ -50,21 +59,43 @@ function searchAction(inputValue, order, path) {
       }
       dispatch(getRecipesAction(drink, history));
     }
-    dispatch(getBoolAction(true));
+    if (order !== 'filtered') {
+      dispatch(getBoolAction(true));
+    }
   };
 }
 
 function detailsAction(path, id) {
   return async (dispatch) => {
     if (path === 'foods') {
+      const meal = await mealApi();
       const detailsRecipe = await mealApiId(id);
+      dispatch(initialRecipesAction(meal));
       dispatch(detailsRecipes(detailsRecipe.meals));
     }
     if (path === 'drinks') {
+      const drink = await drinkApi();
       const detailsRecipe = await drinkApiId(id);
+      dispatch(initialRecipesAction(drink));
       dispatch(detailsRecipes(detailsRecipe.drinks));
     }
   };
 }
 
-export { emailAction, searchAction, getBoolAction, detailsAction };
+function recipesAction(path) {
+  return async (dispatch) => {
+    if (path === 'foods') {
+      const meal = await mealApi();
+      const categories = await mealCategories();
+
+      dispatch(initialRecipesAction(meal, categories));
+    }
+    if (path === 'drinks') {
+      const drink = await drinkApi();
+      const categories = await drinkCategories();
+      dispatch(initialRecipesAction(drink, categories));
+    }
+  };
+}
+
+export { emailAction, searchAction, getBoolAction, detailsAction, recipesAction };

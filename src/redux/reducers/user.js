@@ -1,10 +1,11 @@
-import { LOGIN, RECIPE, DETAILS, SEARCHED } from '../actions';
+import { LOGIN, RECIPE, SEARCHED, RECIPES, DETAILS } from '../actions';
 
 const INITIAL_STATE = { email: '',
   recipes: [],
   history: '',
   searched: false,
-  details: [] };
+  details: [],
+  categories: [] };
 
 const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -28,6 +29,12 @@ const user = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       searched: action.searched,
+    };
+  case RECIPES:
+    return {
+      ...state,
+      recipes: action.recipes,
+      categories: action.categories,
     };
   default:
     return state;
