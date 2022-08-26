@@ -58,3 +58,17 @@ export const drinkApiId = async (id) => {
   const drink = await response.json();
   return drink;
 };
+
+export const mealCategories = async () => {
+  const url = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+  const response = await fetch(url);
+  const categories = await response.json();
+  return categories.meals;
+};
+
+export const drinkCategories = async () => {
+  const url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+  const response = await fetch(url);
+  const categories = await response.json();
+  return categories.drinks;
+};

@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Recipes from '../components/Recipes';
 
 function Drinks({ drinksToProps, searchToProps }) {
-  useEffect(() => { }, [drinksToProps]);
   const iter = 12;
   const condition = (drinksToProps !== undefined && drinksToProps.drinks !== null);
   return (
