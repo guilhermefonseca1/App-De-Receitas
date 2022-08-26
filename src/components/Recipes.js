@@ -8,6 +8,7 @@ function Recipes({ requestApi, recipes, categories, dispatchApi }) {
   const [filter, setFilter] = useState(false);
   const [search, setSearch] = useState(0);
   const iter = 12;
+  const history = useHistory();
   const { location: { pathname } } = useHistory();
   const path = pathname.split('/');
   const keyApi = path[1] === 'foods' ? 'Meal' : 'Drink';
@@ -15,6 +16,13 @@ function Recipes({ requestApi, recipes, categories, dispatchApi }) {
   useEffect(() => { requestApi(path[1]); }, [filter]);
   const len = 5;
   const auxCategories = [];
+  const condition = recipes[api] !== undefined;
+  const auxIds = [];
+  if (condition) {
+    const lenEl = 12;
+    recipes[api].forEach((i, j) => j < lenEl && auxIds.push(Object.values(i)[0]));
+  }
+
   categories.slice(0, len).forEach((i) => auxCategories.push(Object.values(i)[0]));
 
   return (
@@ -45,7 +53,12 @@ function Recipes({ requestApi, recipes, categories, dispatchApi }) {
       {
         recipes[api]?.length > 0
         && recipes[api].map((i, index) => index < iter && (
-          <div data-testid={ `${index}-recipe-card` } key={ index }>
+          <button
+            type="button"
+            data-testid={ `${index}-recipe-card` }
+            key={ index }
+            onClick={ () => history.push(`${pathname}/${auxIds[index]}`) }
+          >
             <img
               data-testid={ `${index}-card-img` }
               src={ i[`str${keyApi}Thumb`] }
@@ -54,7 +67,7 @@ function Recipes({ requestApi, recipes, categories, dispatchApi }) {
             />
 
             <p data-testid={ `${index}-card-name` }>{i[`str${keyApi}`]}</p>
-          </div>
+          </button>
         ))
       }
 
