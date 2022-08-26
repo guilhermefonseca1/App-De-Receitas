@@ -50,7 +50,7 @@ footer {
 .startRecipes {
   align-items: center;
   background-color: rgb(238, 238, 238);
-  bottom: 0px;
+  bottom: 0;
   display: flex;
   height: 9%;
   justify-content: center;
