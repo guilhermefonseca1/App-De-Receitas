@@ -1,5 +1,5 @@
 body {
-  height: 640px;
+  height: 100rem;
   width: 360px;
 }
 
@@ -47,6 +47,28 @@ footer {
   max-height: 80vh;
 }
 
+.container-carousel {
+  height: 11rem;
+  margin: 30px;
+  text-align: center;
+  width: 80%;
+}
+
+.card-carousel {
+  background-color: rgb(213, 212, 212);
+  border-radius: 10px;
+  margin-left: 1px;
+}
+
+.img-carousel {
+  margin: 20px 40px;
+  width: 50%;
+}
+
+.container-details {
+  padding: 15px;
+}
+
 .startRecipes {
   align-items: center;
   background-color: rgb(238, 238, 238);
@@ -56,7 +78,11 @@ footer {
   justify-content: center;
   padding: 0 20px;
   position: fixed;
-  width: 20%;
+}
+
+.card-recipe {
+  background: none;
+  border: 0;
 }
 
 /*
