@@ -7,9 +7,17 @@ import { detailsAction } from '../redux/actions';
 function RecipeInProgress({ requestApi, recipe }) {
   const { location: { pathname } } = useHistory();
   const id = pathname.split('/');
-  const path = id[id.length - 2];
-  const idRecipe = id[id.length - 1];
+
+  const idRecipe = id[id.length - 2];
+  const path = id[1];
   const [item, setItem] = useState('');
+
+  useEffect(() => {
+    requestApi(path, idRecipe);
+    setItem(
+      path === 'foods' ? 'Meal' : 'Drink',
+    );
+  }, []);
 
   const handleClick = (event) => {
     if (event.target.style.textDecoration) {
@@ -47,12 +55,6 @@ function RecipeInProgress({ requestApi, recipe }) {
       });
   };
 
-  useEffect(() => {
-    requestApi(path, idRecipe);
-    setItem(
-      path === 'foods' ? 'Meal' : 'Drink',
-    );
-  }, []);
   return (
     <div>
       Recipe In progress
