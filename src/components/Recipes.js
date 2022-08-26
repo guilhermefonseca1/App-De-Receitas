@@ -1,24 +1,20 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { recipesAction } from '../redux/actions';
+import { recipesAction, searchAction } from '../redux/actions';
 
-function Recipes({ requestApi, recipes, categories }) {
+function Recipes({ requestApi, recipes, categories, dispatchApi }) {
+  const [filter, setFilter] = useState(false);
   const iter = 12;
   const { location: { pathname } } = useHistory();
   const path = pathname.split('/');
   const keyApi = path[1] === 'foods' ? 'Meal' : 'Drink';
   const api = path[1] === 'foods' ? 'meals' : 'drinks';
-  useEffect(() => {
-    // console.log('recipes path', path);
-    requestApi(path[1]);
-  }, []);
+  useEffect(() => { requestApi(path[1]); }, [filter]);
   const len = 5;
   const auxCategories = [];
   categories.slice(0, len).forEach((i) => auxCategories.push(Object.values(i)[0]));
-
-  useEffect(() => { }, []);
 
   return (
     <div>
@@ -28,10 +24,19 @@ function Recipes({ requestApi, recipes, categories }) {
           key={ index }
           value={ i }
           data-testid={ `${i}-category-filter` }
-          // onClick={ ({ target }) => dispatchApi(target.value, 'ingredient', pathname) }
+          onClick={ ({ target }) => {
+            dispatchApi(target.value, 'filtered', pathname);
+          } }
         >
           {i}
         </button>))}
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ () => setFilter(!filter) }
+      >
+        All
+      </button>
 
       {
         recipes[api]?.length > 0
