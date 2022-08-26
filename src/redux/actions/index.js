@@ -1,10 +1,12 @@
-import { mealApi, drinkApi, drinkApiId, mealApiId } from '../../services/fetchApi';
+import { mealApi, drinkApi, drinkApiId, mealApiId,
+  mealCategories, drinkCategories } from '../../services/fetchApi';
 
 export const LOGIN = 'LOGIN';
 export const RECIPE = 'RECIPE';
 export const DETAILS = 'DETAILS';
 export const SEARCHED = 'SEARCHED';
 export const RECIPES = 'RECIPES';
+export const CATEGORIES = 'CATEGORIES';
 
 const emailAction = (payload) => ({
   type: LOGIN,
@@ -27,9 +29,10 @@ const getBoolAction = (bool) => ({
   searched: bool,
 });
 
-const initialRecipesAction = (data) => ({
+const initialRecipesAction = (data, categories) => ({
   type: RECIPES,
   recipes: data,
+  categories,
 });
 
 function searchAction(inputValue, order, path) {
@@ -56,18 +59,14 @@ function searchAction(inputValue, order, path) {
       }
       dispatch(getRecipesAction(drink, history));
     }
-    dispatch(getBoolAction(true));
+    if (order !== 'filtered') {
+      dispatch(getBoolAction(true));
+    }
   };
 }
 
 function detailsAction(path, id) {
   return async (dispatch) => {
-    // if (bool === true && path === 'foods') {
-
-    // }
-    // if (bool === true && path === 'drinks') {
-
-    // }
     if (path === 'foods') {
       const drink = await drinkApi();
       console.log(drink);
@@ -90,11 +89,15 @@ function recipesAction(path) {
     if (path === 'foods') {
       const meal = await mealApi();
       dispatch(initialRecipesAction(meal));
+      const categories = await mealCategories();
+      dispatch(initialRecipesAction(meal, categories));
     }
     if (path === 'drinks') {
       const drink = await drinkApi();
-      dispatch(initialRecipesAction(drink));
+      const categories = await drinkCategories();
+      dispatch(initialRecipesAction(drink, categories));
     }
   };
 }
+
 export { emailAction, searchAction, getBoolAction, detailsAction, recipesAction };

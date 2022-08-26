@@ -23,7 +23,11 @@ function Header({ page, search }) {
         search
 
           && (
-            <button type="button" onClick={ () => setToggle(!isToggle) }>
+            <button
+              type="button"
+              data-testid="search-icon"
+              onClick={ () => setToggle(!isToggle) }
+            >
               <img data-testid="search-top-btn" src={ searchIcon } alt="icon-search" />
             </button>
           )

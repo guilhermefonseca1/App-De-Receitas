@@ -68,8 +68,19 @@ function RecipeDetails({ requestApi, recipe }) {
             data-testid="video"
             title={ e[`str${item}`] }
           />}
+          <button
+            className="startRecipes"
+            type="button"
+            data-testid="start-recipe-btn"
+            name="Start Recipe"
+            htmlFor="Start Recipe"
+          >
+            Start Recipe
+          </button>
           <SimpleSlider />
+
         </section>
+
       ))}
     </div>
   );
