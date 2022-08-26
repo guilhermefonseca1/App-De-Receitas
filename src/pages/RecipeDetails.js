@@ -48,7 +48,7 @@ function RecipeDetails({ requestApi, recipe }) {
             {e.strCategory}
             <button
               type="button"
-              onClick={ () => history.push(`${window.location.pathname}/in-progress`) }
+              onClick={ () => history.push(`${pathname}/in-progress`) }
               data-testid="start-recipe-btn"
             >
               Start Recipe

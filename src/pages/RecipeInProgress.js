@@ -6,7 +6,6 @@ import { detailsAction } from '../redux/actions';
 
 function RecipeInProgress({ requestApi, recipe }) {
   const { location: { pathname } } = useHistory();
-  // const history = useHistory();
   const id = pathname.split('/');
   const path = id[id.length - 2];
   const idRecipe = id[id.length - 1];
