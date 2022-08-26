@@ -62,16 +62,24 @@ function searchAction(inputValue, order, path) {
 
 function detailsAction(path, id) {
   return async (dispatch) => {
+    // if (bool === true && path === 'foods') {
+
+    // }
+    // if (bool === true && path === 'drinks') {
+
+    // }
     if (path === 'foods') {
-      const meal = await mealApi();
+      const drink = await drinkApi();
+      console.log(drink);
+      dispatch(initialRecipesAction(drink));
       const detailsRecipe = await mealApiId(id);
-      dispatch(initialRecipesAction(meal));
       dispatch(detailsRecipes(detailsRecipe.meals));
     }
     if (path === 'drinks') {
-      const drink = await drinkApi();
+      const meal = await mealApi();
+      console.log(meal);
+      dispatch(initialRecipesAction(meal));
       const detailsRecipe = await drinkApiId(id);
-      dispatch(initialRecipesAction(drink));
       dispatch(detailsRecipes(detailsRecipe.drinks));
     }
   };
@@ -81,7 +89,6 @@ function recipesAction(path) {
   return async (dispatch) => {
     if (path === 'foods') {
       const meal = await mealApi();
-
       dispatch(initialRecipesAction(meal));
     }
     if (path === 'drinks') {

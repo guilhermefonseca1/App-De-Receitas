@@ -1,5 +1,5 @@
 body {
-  height: 640px;
+  height: 100rem;
   width: 360px;
 }
 
@@ -45,6 +45,28 @@ footer {
 .rocksGlass {
   animation: shake 1s infinite ease;
   max-height: 80vh;
+}
+
+.container-carousel {
+  height: 11rem;
+  margin: 30px;
+  text-align: center;
+  width: 80%;
+}
+
+.card-carousel {
+  background-color: rgb(213, 212, 212);
+  border-radius: 10px;
+  margin-left: 1px;
+}
+
+.img-carousel {
+  margin: 20px 40px;
+  width: 50%;
+}
+
+.container-details {
+  padding: 15px;
 }
 
 /*

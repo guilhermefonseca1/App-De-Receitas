@@ -24,6 +24,7 @@ export const drinkApi = async (inputValue, order) => {
   try {
     if (!order || !inputValue) {
       response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      console.log(response);
     }
 
     if (order === 'ingredient') {

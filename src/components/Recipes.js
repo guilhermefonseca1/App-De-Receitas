@@ -4,14 +4,17 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { recipesAction } from '../redux/actions';
 
-function Recipes({ requestApi, recipes }) {
+function Recipes({ requestApi, recipes, details }) {
   const iter = 12;
   const { location: { pathname } } = useHistory();
   const path = pathname.split('/');
   const keyApi = path[1] === 'foods' ? 'Meal' : 'Drink';
   const api = path[1] === 'foods' ? 'meals' : 'drinks';
+
   useEffect(() => {
-    requestApi(path[1]);
+    if (!details.length) {
+      requestApi(path[1]);
+    }
   }, []);
   return (
     <div>
@@ -19,7 +22,10 @@ function Recipes({ requestApi, recipes }) {
       {
         recipes[api]?.length > 0
         && recipes[api].map((i, index) => index < iter && (
-          <div data-testid={ `${index}-recipe-card` } key={ index }>
+          <div
+            data-testid={ `${index}-recipe-card` }
+            key={ index }
+          >
             <img
               data-testid={ `${index}-card-img` }
               src={ i[`str${keyApi}Thumb`] }
@@ -27,7 +33,9 @@ function Recipes({ requestApi, recipes }) {
               width="30%"
             />
 
-            <p data-testid={ `${index}-card-name` }>{i[`str${keyApi}`]}</p>
+            <p data-testid={ `${index}-card-name` }>
+              {i[`str${keyApi}`]}
+            </p>
           </div>
         ))
       }
@@ -40,6 +48,7 @@ Recipes.propTypes = {
   recipes: PropTypes.array,
   requestApi: PropTypes.func,
 }.isRequired;
+
 const mapDispatchToProps = (dispatch) => ({
   requestApi: (path) => dispatch(recipesAction(path)),
 });

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { detailsAction } from '../redux/actions';
+import SimpleSlider from '../components/Carousel';
 
 function RecipeDetails({ requestApi, recipe }) {
   const { location: { pathname } } = useHistory();
@@ -17,7 +18,7 @@ function RecipeDetails({ requestApi, recipe }) {
     return keysIngredients
       .map((e, i) => {
         const measure = `strMeasure${i + 1}`;
-        if (elem[e] !== null) {
+        if (elem[e] !== null && elem[e].length > 0) {
           return (
             <p
               key={ i }
@@ -41,8 +42,8 @@ function RecipeDetails({ requestApi, recipe }) {
   return (
     <div>
       Recipe Details
-      {recipe.map((e, i) => (
-        <section key={ e[`id${item}`] }>
+      {recipe.map((e) => (
+        <section key={ e[`id${item}`] } className="container-details">
           <h1 data-testid="recipe-title">{e[`str${item}`]}</h1>
           <h3 data-testid="recipe-category">
             Category:
@@ -67,7 +68,7 @@ function RecipeDetails({ requestApi, recipe }) {
             data-testid="video"
             title={ e[`str${item}`] }
           />}
-          <p data-testid={ `${i}-recomendation-card` }>Sugestões</p>
+          <SimpleSlider />
         </section>
       ))}
     </div>
@@ -79,6 +80,7 @@ RecipeDetails.propTypes = {
 
 const mapStateToProps = (state) => ({
   recipe: state.user.details,
+  recipes: state.user.recipes,
 });
 
 const mapDispatchToProps = (dispatch) => ({
