@@ -59,7 +59,9 @@ function searchAction(inputValue, order, path) {
       }
       dispatch(getRecipesAction(drink, history));
     }
-    dispatch(getBoolAction(true));
+    if (order !== 'filtered') {
+      dispatch(getBoolAction(true));
+    }
   };
 }
 
@@ -81,7 +83,6 @@ function detailsAction(path, id) {
 }
 
 function recipesAction(path) {
-  // console.log('é o path: ', path);
   return async (dispatch) => {
     if (path === 'foods') {
       const meal = await mealApi();
