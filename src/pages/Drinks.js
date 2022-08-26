@@ -7,8 +7,6 @@ import Recipes from '../components/Recipes';
 import { drinkCategories } from '../services/fetchApi';
 
 function Drinks({ drinksToProps, searchToProps }) {
-  // useEffect(() => { }, [drinksToProps]);
-
   useEffect(() => { drinkCategories(); }, []);
   const iter = 12;
   const condition = (drinksToProps !== undefined && drinksToProps.drinks !== null);
