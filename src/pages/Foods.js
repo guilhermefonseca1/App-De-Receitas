@@ -1,15 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Recipes from '../components/Recipes';
-import { mealCategories } from '../services/fetchApi';
 
 function Foods({ mealsToProps, searchToProps }) {
-  useEffect(() => { mealCategories(); }, [] );
-  
-
   const iter = 11;
   const condition = (mealsToProps !== undefined && mealsToProps.meals !== null);
   return (

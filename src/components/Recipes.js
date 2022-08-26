@@ -13,9 +13,9 @@ function Recipes({ requestApi, recipes, categories }) {
   useEffect(() => {
     requestApi(path[1]);
   }, []);
-
+  const len = 5;
   const auxCategories = [];
-  categories.forEach((i) => auxCategories.push(Object.values(i)[0]));
+  categories.slice(0, len).forEach((i) => auxCategories.push(Object.values(i)[0]));
 
   useEffect(() => { }, []);
 
