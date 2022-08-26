@@ -33,7 +33,8 @@ function RecipeInProgress({ requestApi, recipe }) {
     return keysIngredients
       .map((e, i) => {
         const measure = `strMeasure${i + 1}`;
-        if (elem[e] !== null) {
+        if (elem[e] !== null && elem[e] !== '') {
+          console.log(elem[e]);
           return (
             <div>
               <p
@@ -42,12 +43,14 @@ function RecipeInProgress({ requestApi, recipe }) {
               >
                 {`${elem[e]} - ${elem[measure]}`}
               </p>
-              <input
-                value={ i }
-                type="checkbox"
-                data-testid={ `${i}-ingredient-step` }
-                onClick={ handleClick }
-              />
+              <label htmlFor={ e } data-testid={ `${i}-ingredient-step` }>
+                <input
+                  name={ e }
+                  value={ i }
+                  type="checkbox"
+                  onClick={ handleClick }
+                />
+              </label>
             </div>
           );
         }
