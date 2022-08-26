@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import Recipes from '../components/Recipes';
 
 function Foods({ mealsToProps, searchToProps }) {
-  const iter = 11;
+  const iter = 12;
   const condition = (mealsToProps !== undefined && mealsToProps.meals !== null);
   return (
     <div>
