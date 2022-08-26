@@ -7,11 +7,11 @@ import { recipesAction, searchAction } from '../redux/actions';
 function Recipes({ requestApi, recipes, categories, dispatchApi }) {
   const [filter, setFilter] = useState(false);
   const [search, setSearch] = useState(0);
+  const { location: { pathname } } = useHistory();
+  const path = pathname.split('/');
   useEffect(() => { requestApi(path[1]); }, [filter]);
   const iter = 12;
   const history = useHistory();
-  const { location: { pathname } } = useHistory();
-  const path = pathname.split('/');
   const keyApi = path[1] === 'foods' ? 'Meal' : 'Drink';
   const api = path[1] === 'foods' ? 'meals' : 'drinks';
   const len = 5;
