@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { detailsAction } from '../redux/actions';
 import SimpleSlider from '../components/Carousel';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function RecipeDetails({ requestApi, recipe }) {
   const { location: { pathname } } = useHistory();
@@ -58,6 +60,10 @@ function RecipeDetails({ requestApi, recipe }) {
             width="30%"
             data-testid="recipe-photo"
           />
+          <div>
+            <button type="button"><img src={ shareIcon } alt="Compartilhar" /></button>
+            <button type="button"><img src={ whiteHeartIcon } alt="Favoritar" /></button>
+          </div>
           <h3>Ingredients</h3>
           <div>{ renderIngredients(e)}</div>
 
