@@ -83,7 +83,6 @@ function RecipeDetails({ requestApi, recipe }) {
             {nameButton}
           </button>
           <SimpleSlider />
-
         </section>
 
       ))}
