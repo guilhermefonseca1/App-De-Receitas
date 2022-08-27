@@ -69,14 +69,12 @@ function detailsAction(path, id) {
   return async (dispatch) => {
     if (path === 'foods') {
       const drink = await drinkApi();
-      console.log(drink);
       dispatch(initialRecipesAction(drink));
       const detailsRecipe = await mealApiId(id);
       dispatch(detailsRecipes(detailsRecipe.meals));
     }
     if (path === 'drinks') {
       const meal = await mealApi();
-      console.log(meal);
       dispatch(initialRecipesAction(meal));
       const detailsRecipe = await drinkApiId(id);
       dispatch(detailsRecipes(detailsRecipe.drinks));

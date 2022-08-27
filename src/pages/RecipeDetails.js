@@ -7,10 +7,12 @@ import SimpleSlider from '../components/Carousel';
 
 function RecipeDetails({ requestApi, recipe }) {
   const { location: { pathname } } = useHistory();
+  const [nameButton, setNameButton] = useState('Start Recipe');
   const id = pathname.split('/');
   const path = id[id.length - 2];
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
+  const sendToLocalStorage = (key, obj) => localStorage.setItem(key, JSON.stringify(obj));
 
   const renderIngredients = (elem) => {
     const keysIngredients = Object.keys(recipe[0])
@@ -76,10 +78,12 @@ function RecipeDetails({ requestApi, recipe }) {
             data-testid="start-recipe-btn"
             name="Start Recipe"
             htmlFor="Start Recipe"
+            onClick={ () => {
+              sendToLocalStorage('doneRecipes', e); setNameButton('Continue Recipe');
+            } }
           >
-            Start Recipe
+            {nameButton}
           </button>
-
         </section>
 
       ))}
