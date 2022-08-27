@@ -51,13 +51,6 @@ function RecipeDetails({ requestApi, recipe }) {
           <h3 data-testid="recipe-category">
             Category:
             {e.strCategory}
-            <button
-              type="button"
-              onClick={ () => history.push(`${pathname}/in-progress`) }
-              data-testid="start-recipe-btn"
-            >
-              Start Recipe
-            </button>
           </h3>
           {path === 'drinks' && <h4 data-testid="recipe-category">{e.strAlcoholic}</h4>}
           <img
@@ -91,7 +84,9 @@ function RecipeDetails({ requestApi, recipe }) {
             name="Start Recipe"
             htmlFor="Start Recipe"
             onClick={ () => {
-              sendToLocalStorage('doneRecipes', e); setNameButton('Continue Recipe');
+              sendToLocalStorage('doneRecipes', e);
+              setNameButton('Continue Recipe');
+              history.push(`${pathname}/in-progress`);
             } }
           >
             {nameButton}
