@@ -59,7 +59,8 @@ function RecipeDetails({ requestApi, recipe }) {
             data-testid="recipe-photo"
           />
           <h3>Ingredients</h3>
-          { renderIngredients(e)}
+          <div>{ renderIngredients(e)}</div>
+
           <h3>Instructions</h3>
           <p data-testid="instructions">{e.strInstructions}</p>
           {path === 'foods'
@@ -70,6 +71,7 @@ function RecipeDetails({ requestApi, recipe }) {
             data-testid="video"
             title={ e[`str${item}`] }
           />}
+          <SimpleSlider />
           <button
             className="startRecipes"
             type="button"
@@ -82,7 +84,6 @@ function RecipeDetails({ requestApi, recipe }) {
           >
             {nameButton}
           </button>
-          <SimpleSlider />
         </section>
 
       ))}

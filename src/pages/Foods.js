@@ -11,21 +11,21 @@ function Foods({ mealsToProps, searchToProps }) {
   return (
     <div>
       <Header page="Foods" />
-      <div className="food-card">
+      <div className="container-recipes">
         {searchToProps && condition ? (
           mealsToProps.meals.map((i, index) => index < iter && (
-            <div>
+            <button type="button" className="card-recipe">
               <p data-testid={ `${index}-recipe-card` } />
               <img
                 data-testid={ `${index}-card-img` }
                 src={ i.strMealThumb }
                 alt={ i.strMeal }
-                width="30%"
+                className="img-recipes"
               />
 
               <p data-testid={ `${index}-card-name` }>{i.strMeal}</p>
-            </div>
-          ))) : <Recipes />}
+            </button>
+          ))) : <div><Recipes /></div>}
       </div>
       <Footer />
     </div>

@@ -31,30 +31,33 @@ function Recipes({ requestApi, recipes, categories, dispatchApi, details }) {
   categories?.slice(0, len).forEach((i) => auxCategories.push(Object.values(i)[0]));
 
   return (
-    <div>
-      {auxCategories.map((i, index) => (
+    <div className="container-recipes">
+      <nav>
+        {auxCategories.map((i, index) => (
+          <button
+            className="btn-recipes"
+            type="button"
+            key={ index }
+            value={ i }
+            data-testid={ `${i}-category-filter` }
+            onClick={ ({ target }) => {
+              dispatchApi(target.value, 'filtered', pathname); setSearch(search + 1);
+              if (search > 0) {
+                setSearch(0); setFilter(!filter);
+              }
+            } }
+          >
+            {i}
+          </button>))}
         <button
+          className="btn-recipes"
           type="button"
-          key={ index }
-          value={ i }
-          data-testid={ `${i}-category-filter` }
-          onClick={ ({ target }) => {
-            dispatchApi(target.value, 'filtered', pathname); setSearch(search + 1);
-            if (search > 0) {
-              setSearch(0); setFilter(!filter);
-            }
-          } }
+          data-testid="All-category-filter"
+          onClick={ () => setFilter(!filter) }
         >
-          {i}
-        </button>))}
-      <button
-        type="button"
-        data-testid="All-category-filter"
-        onClick={ () => setFilter(!filter) }
-      >
-        All
-      </button>
-
+          All
+        </button>
+      </nav>
       {
         recipes[api]?.length > 0
         && recipes[api].map((i, index) => index < iter && (
@@ -70,7 +73,7 @@ function Recipes({ requestApi, recipes, categories, dispatchApi, details }) {
               data-testid={ `${index}-card-img` }
               src={ i[`str${keyApi}Thumb`] }
               alt={ i[`str${keyApi}`] }
-              width="30%"
+              className="img-recipes"
             />
             <p data-testid={ `${index}-card-name` }>{i[`str${keyApi}`]}</p>
           </button>
