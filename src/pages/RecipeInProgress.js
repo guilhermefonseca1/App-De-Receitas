@@ -11,7 +11,7 @@ function RecipeInProgress({ requestApi, recipe }) {
   const path = id[1];
   const [item, setItem] = useState('');
   const [line, setLine] = useState(false);
-//req 
+
   useEffect(() => {
     requestApi(path, idRecipe);
     setItem(

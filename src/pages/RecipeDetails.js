@@ -3,21 +3,26 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { detailsAction } from '../redux/actions';
+import SimpleSlider from '../components/Carousel';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function RecipeDetails({ requestApi, recipe }) {
   const { location: { pathname } } = useHistory();
   const history = useHistory();
+  const [nameButton, setNameButton] = useState('Start Recipe');
   const id = pathname.split('/');
   const path = id[id.length - 2];
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
+  const sendToLocalStorage = (key, obj) => localStorage.setItem(key, JSON.stringify(obj));
   const renderIngredients = (elem) => {
     const keysIngredients = Object.keys(recipe[0])
       .filter((e) => e.includes('Ingredient'));
     return keysIngredients
       .map((e, i) => {
         const measure = `strMeasure${i + 1}`;
-        if (elem[e] !== null) {
+        if (elem[e] !== null && elem[e].length > 0) {
           return (
             <p
               key={ i }
@@ -40,8 +45,8 @@ function RecipeDetails({ requestApi, recipe }) {
   return (
     <div>
       Recipe Details
-      {recipe.map((e, i) => (
-        <section key={ e[`id${item}`] }>
+      {recipe.map((e) => (
+        <section key={ e[`id${item}`] } className="container-details">
           <h1 data-testid="recipe-title">{e[`str${item}`]}</h1>
           <h3 data-testid="recipe-category">
             Category:
@@ -61,8 +66,13 @@ function RecipeDetails({ requestApi, recipe }) {
             width="30%"
             data-testid="recipe-photo"
           />
+          <div>
+            <button type="button"><img src={ shareIcon } alt="Compartilhar" /></button>
+            <button type="button"><img src={ whiteHeartIcon } alt="Favoritar" /></button>
+          </div>
           <h3>Ingredients</h3>
-          { renderIngredients(e)}
+          <div>{ renderIngredients(e)}</div>
+
           <h3>Instructions</h3>
           <p data-testid="instructions">{e.strInstructions}</p>
           {path === 'foods'
@@ -73,15 +83,18 @@ function RecipeDetails({ requestApi, recipe }) {
             data-testid="video"
             title={ e[`str${item}`] }
           />}
-          <p data-testid={ `${i}-recomendation-card` }>Sugestões</p>
+          <SimpleSlider />
           <button
             className="startRecipes"
             type="button"
             data-testid="start-recipe-btn"
             name="Start Recipe"
             htmlFor="Start Recipe"
+            onClick={ () => {
+              sendToLocalStorage('doneRecipes', e); setNameButton('Continue Recipe');
+            } }
           >
-            Start Recipe
+            {nameButton}
           </button>
         </section>
 
@@ -95,6 +108,7 @@ RecipeDetails.propTypes = {
 
 const mapStateToProps = (state) => ({
   recipe: state.user.details,
+  recipes: state.user.recipes,
 });
 
 const mapDispatchToProps = (dispatch) => ({
