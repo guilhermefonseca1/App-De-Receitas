@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 import { detailsAction } from '../redux/actions';
 import SimpleSlider from '../components/Carousel';
 
+const copy = require('clipboard-copy');
+
 function RecipeDetails({ requestApi, recipe }) {
+  const [copied, setCopied] = useState(false);
   const history = useHistory();
   const { location: { pathname } } = useHistory();
   const id = pathname.split('/');
@@ -39,8 +42,15 @@ function RecipeDetails({ requestApi, recipe }) {
       });
   };
 
+  const getClipBoard = async (arg) => {
+    const time = 1000;
+    await copy(arg).then(setCopied(true));
+    setInterval(() => setCopied(false), time);
+  };
+
   return (
     <div>
+      { copied && <p>Link copied! </p>}
       Recipe Details
       {recipe.map((e) => (
         <section key={ e[`id${item}`] } className="container-details">
@@ -60,6 +70,7 @@ function RecipeDetails({ requestApi, recipe }) {
           <button
             type="button"
             data-testid="share-btn"
+            onClick={ () => getClipBoard(`http://localhost:3000${pathname}`) }
           >
             Share
           </button>
