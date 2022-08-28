@@ -5,15 +5,22 @@ import { connect } from 'react-redux';
 import { detailsAction } from '../redux/actions';
 import SimpleSlider from '../components/Carousel';
 
+const copy = require('clipboard-copy');
+
 function RecipeDetails({ requestApi, recipe }) {
+  const [copied, setCopied] = useState(false);
+  const history = useHistory();
   const { location: { pathname } } = useHistory();
-  const { history } = useHistory();
-  const [nameButton, setNameButton] = useState('Start Recipe');
   const id = pathname.split('/');
   const path = id[id.length - 2];
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
   const sendToLocalStorage = (key, obj) => localStorage.setItem(key, JSON.stringify(obj));
+
+  useEffect(() => {
+    requestApi(path, idRecipe);
+    setItem(path === 'foods' ? 'Meal' : 'Drink');
+  }, []);
 
   const renderIngredients = (elem) => {
     const keysIngredients = Object.keys(recipe[0])
@@ -35,15 +42,15 @@ function RecipeDetails({ requestApi, recipe }) {
       });
   };
 
-  useEffect(() => {
-    requestApi(path, idRecipe);
-    setItem(
-      path === 'foods' ? 'Meal' : 'Drink',
-    );
-  }, []);
+  const getClipBoard = async (arg) => {
+    const time = 1000;
+    await copy(arg).then(setCopied(true));
+    setInterval(() => setCopied(false), time);
+  };
 
   return (
     <div>
+      { copied && <p>Link copied! </p>}
       Recipe Details
       {recipe.map((e) => (
         <section key={ e[`id${item}`] } className="container-details">
@@ -60,18 +67,31 @@ function RecipeDetails({ requestApi, recipe }) {
             data-testid="recipe-photo"
           />
           <h3>Ingredients</h3>
-          <div>{ renderIngredients(e)}</div>
+          <button
+            type="button"
+            data-testid="share-btn"
+            onClick={ () => getClipBoard(`http://localhost:3000${pathname}`) }
+          >
+            Share
+          </button>
+          <button
+            type="button"
+            data-testid="favorite-btn"
+          >
+            Favorite
+          </button>
+          <div>{renderIngredients(e)}</div>
 
           <h3>Instructions</h3>
           <p data-testid="instructions">{e.strInstructions}</p>
           {path === 'foods'
-          && <iframe
-            width="320"
-            height="220"
-            src={ e.strYoutube }
-            data-testid="video"
-            title={ e[`str${item}`] }
-          />}
+              && <iframe
+                width="320"
+                height="220"
+                src={ e.strYoutube }
+                data-testid="video"
+                title={ e[`str${item}`] }
+              />}
           <SimpleSlider />
           <button
             className="startRecipes"
@@ -80,11 +100,11 @@ function RecipeDetails({ requestApi, recipe }) {
             name="Start Recipe"
             htmlFor="Start Recipe"
             onClick={ () => {
-              sendToLocalStorage('doneRecipes', e); setNameButton('Continue Recipe');
-              history.push(`/${path}/${idRecipe}/in-progress`);
+              sendToLocalStorage('inProgressRecipes', e);
+              history.push(`${pathname}/in-progress`);
             } }
           >
-            {nameButton}
+            Continue Recipe
           </button>
         </section>
 
