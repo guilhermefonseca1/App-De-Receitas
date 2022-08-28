@@ -17,6 +17,7 @@ function RecipeDetails({ requestApi, recipe }) {
   const [item, setItem] = useState('');
   const sendToLocalStorage = (key, obj) => localStorage.setItem(key, JSON.stringify(obj));
 
+  let objToStore = {};
   useEffect(() => {
     requestApi(path, idRecipe);
     setItem(path === 'foods' ? 'Meal' : 'Drink');
@@ -48,6 +49,20 @@ function RecipeDetails({ requestApi, recipe }) {
     setInterval(() => setCopied(false), time);
   };
 
+  const getAlcohol = (obj) => {
+    if (path === 'foods') {
+      return '';
+    }
+    return obj.strAlcoholic;
+  };
+
+  const getNationality = (obj) => {
+    if (path === 'foods') {
+      return obj.strArea;
+    }
+    return '';
+  };
+
   return (
     <div>
       { copied && <p>Link copied! </p>}
@@ -77,6 +92,19 @@ function RecipeDetails({ requestApi, recipe }) {
           <button
             type="button"
             data-testid="favorite-btn"
+            onClick={ () => {
+              const sliced = -1;
+              objToStore = {
+                id: e[`id${item}`],
+                type: path.slice(0, sliced),
+                nationality: getNationality(e),
+                category: e.strCategory,
+                alcoholicOrNot: getAlcohol(e),
+                name: e[`str${item}`],
+                image: e[`str${item}Thumb`] };
+              sendToLocalStorage('favoriteRecipes', [objToStore]);
+              console.log(objToStore);
+            } }
           >
             Favorite
           </button>
