@@ -57,18 +57,30 @@ function RecipeDetails({ requestApi, recipe }) {
             data-testid="recipe-photo"
           />
           <h3>Ingredients</h3>
-          <div>{ renderIngredients(e)}</div>
+          <button
+            type="button"
+            data-testid="share-btn"
+          >
+            Share
+          </button>
+          <button
+            type="button"
+            data-testid="favorite-btn"
+          >
+            Favorite
+          </button>
+          <div>{renderIngredients(e)}</div>
 
           <h3>Instructions</h3>
           <p data-testid="instructions">{e.strInstructions}</p>
           {path === 'foods'
-          && <iframe
-            width="320"
-            height="220"
-            src={ e.strYoutube }
-            data-testid="video"
-            title={ e[`str${item}`] }
-          />}
+              && <iframe
+                width="320"
+                height="220"
+                src={ e.strYoutube }
+                data-testid="video"
+                title={ e[`str${item}`] }
+              />}
           <SimpleSlider />
           <button
             className="startRecipes"
