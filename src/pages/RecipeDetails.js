@@ -6,6 +6,7 @@ import { detailsAction } from '../redux/actions';
 import SimpleSlider from '../components/Carousel';
 
 function RecipeDetails({ requestApi, recipe }) {
+  const history = useHistory();
   const { location: { pathname } } = useHistory();
   const id = pathname.split('/');
   const path = id[id.length - 2];
@@ -77,6 +78,7 @@ function RecipeDetails({ requestApi, recipe }) {
             htmlFor="Start Recipe"
             onClick={ () => {
               sendToLocalStorage('inProgressRecipes', e);
+              history.push(`${pathname}/in-progress`);
             } }
           >
             Continue Recipe
