@@ -77,7 +77,6 @@ function RecipeDetails({ requestApi, recipe }) {
             htmlFor="Start Recipe"
             onClick={ () => {
               sendToLocalStorage('inProgressRecipes', e);
-              console.log(Object.values(e)[0]);
             } }
           >
             Continue Recipe
