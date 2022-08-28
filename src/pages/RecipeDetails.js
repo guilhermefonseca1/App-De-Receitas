@@ -4,8 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { detailsAction } from '../redux/actions';
 import SimpleSlider from '../components/Carousel';
-import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function RecipeDetails({ requestApi, recipe }) {
   const { location: { pathname } } = useHistory();
@@ -14,7 +12,11 @@ function RecipeDetails({ requestApi, recipe }) {
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
   const sendToLocalStorage = (key, obj) => localStorage.setItem(key, JSON.stringify(obj));
-  const getFromLocalStorage = (key) => JSON.parse(localStorage.getItem(key));
+
+  useEffect(() => {
+    requestApi(path, idRecipe);
+    setItem(path === 'foods' ? 'Meal' : 'Drink');
+  }, []);
 
   const renderIngredients = (elem) => {
     const keysIngredients = Object.keys(recipe[0])
@@ -36,13 +38,6 @@ function RecipeDetails({ requestApi, recipe }) {
       });
   };
 
-  useEffect(() => {
-    requestApi(path, idRecipe);
-    setItem(
-      path === 'foods' ? 'Meal' : 'Drink',
-    );
-  }, []);
-
   return (
     <div>
       Recipe Details
@@ -60,10 +55,6 @@ function RecipeDetails({ requestApi, recipe }) {
             width="30%"
             data-testid="recipe-photo"
           />
-          <div>
-            <button type="button"><img src={ shareIcon } alt="Compartilhar" /></button>
-            <button type="button"><img src={ whiteHeartIcon } alt="Favoritar" /></button>
-          </div>
           <h3>Ingredients</h3>
           <div>{ renderIngredients(e)}</div>
 
@@ -86,9 +77,10 @@ function RecipeDetails({ requestApi, recipe }) {
             htmlFor="Start Recipe"
             onClick={ () => {
               sendToLocalStorage('inProgressRecipes', e);
+              console.log(Object.values(e)[0]);
             } }
           >
-            Start Recipe
+            Continue Recipe
           </button>
         </section>
 
