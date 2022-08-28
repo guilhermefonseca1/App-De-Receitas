@@ -4,17 +4,20 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { detailsAction } from '../redux/actions';
 import SimpleSlider from '../components/Carousel';
-import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function RecipeDetails({ requestApi, recipe }) {
+  const history = useHistory();
   const { location: { pathname } } = useHistory();
-  const [nameButton, setNameButton] = useState('Start Recipe');
   const id = pathname.split('/');
   const path = id[id.length - 2];
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
   const sendToLocalStorage = (key, obj) => localStorage.setItem(key, JSON.stringify(obj));
+
+  useEffect(() => {
+    requestApi(path, idRecipe);
+    setItem(path === 'foods' ? 'Meal' : 'Drink');
+  }, []);
 
   const renderIngredients = (elem) => {
     const keysIngredients = Object.keys(recipe[0])
@@ -36,13 +39,6 @@ function RecipeDetails({ requestApi, recipe }) {
       });
   };
 
-  useEffect(() => {
-    requestApi(path, idRecipe);
-    setItem(
-      path === 'foods' ? 'Meal' : 'Drink',
-    );
-  }, []);
-
   return (
     <div>
       Recipe Details
@@ -60,23 +56,31 @@ function RecipeDetails({ requestApi, recipe }) {
             width="30%"
             data-testid="recipe-photo"
           />
-          <div>
-            <button type="button"><img src={ shareIcon } alt="Compartilhar" /></button>
-            <button type="button"><img src={ whiteHeartIcon } alt="Favoritar" /></button>
-          </div>
           <h3>Ingredients</h3>
-          <div>{ renderIngredients(e)}</div>
+          <button
+            type="button"
+            data-testid="share-btn"
+          >
+            Share
+          </button>
+          <button
+            type="button"
+            data-testid="favorite-btn"
+          >
+            Favorite
+          </button>
+          <div>{renderIngredients(e)}</div>
 
           <h3>Instructions</h3>
           <p data-testid="instructions">{e.strInstructions}</p>
           {path === 'foods'
-          && <iframe
-            width="320"
-            height="220"
-            src={ e.strYoutube }
-            data-testid="video"
-            title={ e[`str${item}`] }
-          />}
+              && <iframe
+                width="320"
+                height="220"
+                src={ e.strYoutube }
+                data-testid="video"
+                title={ e[`str${item}`] }
+              />}
           <SimpleSlider />
           <button
             className="startRecipes"
@@ -85,10 +89,11 @@ function RecipeDetails({ requestApi, recipe }) {
             name="Start Recipe"
             htmlFor="Start Recipe"
             onClick={ () => {
-              sendToLocalStorage('doneRecipes', e); setNameButton('Continue Recipe');
+              sendToLocalStorage('inProgressRecipes', e);
+              history.push(`${pathname}/in-progress`);
             } }
           >
-            {nameButton}
+            Continue Recipe
           </button>
         </section>
 
