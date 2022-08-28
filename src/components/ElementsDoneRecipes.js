@@ -29,13 +29,13 @@ function ElementsDoneRecipes() {
     },
   ];
 
-  const MAGIC_NUMBER = 3;
+  const MAGIC_NUMBER = 2;
   return (
     <section>
       {
         doneRecipes.map((item, index) => (
           <div className="doneRecipesItem" key={ index }>
-            <Link to={ `/${item.type}/${item.id}` }>
+            <Link to={ `/${item.type}s/${item.id}` }>
               <img
                 src={ item.image }
                 alt={ item.name }
@@ -46,7 +46,7 @@ function ElementsDoneRecipes() {
             <div className="containerDoneRecipesItem">
               <div className="shareDoneRecipesItem">
                 {
-                  item.type === 'foods' ? (
+                  item.type === 'food' ? (
                     <p data-testid={ `${index}-horizontal-top-text` }>
                       { `${item.nationality} - ${item.category}` }
                     </p>
@@ -65,7 +65,7 @@ function ElementsDoneRecipes() {
                   className="shareIconDoneRecipesItem"
                 />
               </div>
-              <Link to={ `/${item.type}/${item.id}` }>
+              <Link to={ `/${item.type}s/${item.id}` }>
                 <h3 data-testid={ `${index}-horizontal-name` }>
                   {item.name}
                 </h3>
@@ -76,8 +76,11 @@ function ElementsDoneRecipes() {
               <ul>
                 {
                   item.tags.slice(0, MAGIC_NUMBER).map((tag, indexTag) => (
-                    <li className="tagDoneRecipesItem"
-                    key={ indexTag } data-testid={ `${index}-${tag}-horizontal-tag` }>
+                    <li
+                      className="tagDoneRecipesItem"
+                      key={ indexTag }
+                      data-testid={ `${index}-${tag}-horizontal-tag` }
+                    >
                       {tag}
                     </li>
                   ))
