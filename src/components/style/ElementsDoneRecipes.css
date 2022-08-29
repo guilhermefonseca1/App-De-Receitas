@@ -1,8 +1,20 @@
+.buttonIcon {
+  background-color: rgba(255, 255, 255, 0);
+  border: 2px;
+  width: 100%;
+}
+
 .containerDoneRecipesItem {
   display: flex;
   flex-direction: column;
   margin-left: 0 auto;
 }
+
+.copyUrl {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  }
 
 .doneRecipesItem {
   background-color: rgba(255, 255, 255, 0.5);
@@ -31,3 +43,10 @@
 .thumbImage {
   width: 23vh;
 }
+
+.thumbImageItem {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+}
+
