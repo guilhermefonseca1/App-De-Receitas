@@ -7,7 +7,6 @@ import { detailsAction } from '../redux/actions';
 function RecipeInProgress({ requestApi, recipe }) {
   const { location: { pathname } } = useHistory();
   const id = pathname.split('/');
-
   const idRecipe = id[id.length - 2];
   const path = id[1];
   const [item, setItem] = useState('');
@@ -33,7 +32,7 @@ function RecipeInProgress({ requestApi, recipe }) {
     return keysIngredients
       .map((e, i) => {
         const measure = `strMeasure${i + 1}`;
-        if (elem[e] !== null) {
+        if (elem[e] !== null && elem[e].length > 0) {
           return (
             <div>
               <p
