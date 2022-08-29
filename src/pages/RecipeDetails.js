@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import { detailsAction } from '../redux/actions';
 import SimpleSlider from '../components/Carousel';
 
@@ -15,7 +17,23 @@ function RecipeDetails({ requestApi, recipe }) {
   const path = id[id.length - 2];
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
-  const sendToLocalStorage = (key, obj) => localStorage.setItem(key, JSON.stringify(obj));
+
+  const sendToLocalStorage = (key, obj) => {
+    const previous = JSON.parse(localStorage.getItem(key));
+    if (previous) {
+      localStorage.setItem(key, JSON.stringify([...previous, obj]));
+    }
+    if (!previous) {
+      localStorage.setItem(key, JSON.stringify([obj]));
+    }
+  };
+
+  const checkFavorite = (key) => {
+    const previous = JSON.parse(localStorage.getItem(key));
+    if (previous) {
+      return previous.some((i) => i.id === recipe[0][`id${item}`]);
+    }
+  };
 
   let objToStore = {};
   useEffect(() => {
@@ -85,12 +103,15 @@ function RecipeDetails({ requestApi, recipe }) {
           <button
             type="button"
             data-testid="share-btn"
-            onClick={ () => getClipBoard(`http://localhost:3000${pathname}`) }
+            onClick={ () => {
+              getClipBoard(`http://localhost:3000${pathname}`);
+            } }
           >
             Share
           </button>
-          <button
-            type="button"
+
+          <input
+            type="image"
             data-testid="favorite-btn"
             onClick={ () => {
               const sliced = -1;
@@ -102,12 +123,12 @@ function RecipeDetails({ requestApi, recipe }) {
                 alcoholicOrNot: getAlcohol(e),
                 name: e[`str${item}`],
                 image: e[`str${item}Thumb`] };
-              sendToLocalStorage('favoriteRecipes', [objToStore]);
-              console.log(objToStore);
+              sendToLocalStorage('favoriteRecipes', objToStore);
             } }
-          >
-            Favorite
-          </button>
+            src={ checkFavorite('favoriteRecipes') ? blackHeartIcon : whiteHeartIcon }
+            alt="Favorito"
+          />
+
           <div>{renderIngredients(e)}</div>
 
           <h3>Instructions</h3>
