@@ -11,6 +11,8 @@ const copy = require('clipboard-copy');
 
 function RecipeDetails({ requestApi, recipe }) {
   const [copied, setCopied] = useState(false);
+  const [search, setSearch] = useState(0);
+  const [clicked, setClicked] = useState(false);
   const history = useHistory();
   const { location: { pathname } } = useHistory();
   const id = pathname.split('/');
@@ -18,13 +20,16 @@ function RecipeDetails({ requestApi, recipe }) {
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
 
-  const sendToLocalStorage = (key, obj) => {
+  const sendToLocalStorage = (key, obj, filter) => {
     const previous = JSON.parse(localStorage.getItem(key));
-    if (previous) {
+    if (previous && filter === '') {
       localStorage.setItem(key, JSON.stringify([...previous, obj]));
     }
     if (!previous) {
       localStorage.setItem(key, JSON.stringify([obj]));
+    }
+    if (previous && filter === 'filter') {
+      localStorage.setItem(key, JSON.stringify(previous.filter((i) => i.id !== obj.id)));
     }
   };
 
@@ -33,6 +38,7 @@ function RecipeDetails({ requestApi, recipe }) {
     if (previous) {
       return previous.some((i) => i.id === recipe[0][`id${item}`]);
     }
+    return false;
   };
 
   let objToStore = {};
@@ -123,9 +129,15 @@ function RecipeDetails({ requestApi, recipe }) {
                 alcoholicOrNot: getAlcohol(e),
                 name: e[`str${item}`],
                 image: e[`str${item}Thumb`] };
-              sendToLocalStorage('favoriteRecipes', objToStore);
+              sendToLocalStorage('favoriteRecipes', objToStore, '');
+              setSearch(search + 1);
+              setClicked(!clicked);
+              if (search > 0) {
+                setSearch(0);
+                sendToLocalStorage('favoriteRecipes', objToStore, 'filter');
+              }
             } }
-            src={ checkFavorite('favoriteRecipes') ? blackHeartIcon : whiteHeartIcon }
+            src={checkFavorite('favoriteRecipes') || clicked ? blackHeartIcon : whiteHeartIcon }
             alt="Favorito"
           />
 
