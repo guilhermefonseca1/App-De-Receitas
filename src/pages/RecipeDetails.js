@@ -17,6 +17,11 @@ function RecipeDetails({ requestApi, recipe }) {
   const path = id[id.length - 2];
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
+  // const [local, setLocal] = useState(false);
+  // const getToLocalStorage = () => {
+  //   const recipeLocal = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //   return setLocal(recipeLocal);
+  // };
 
   const sendToLocalStorage = (key, obj) => {
     const previous = JSON.parse(localStorage.getItem(key));
@@ -39,6 +44,7 @@ function RecipeDetails({ requestApi, recipe }) {
   useEffect(() => {
     requestApi(path, idRecipe);
     setItem(path === 'foods' ? 'Meal' : 'Drink');
+    // getToLocalStorage();
   }, []);
 
   const renderIngredients = (elem) => {
@@ -123,6 +129,7 @@ function RecipeDetails({ requestApi, recipe }) {
                 alcoholicOrNot: getAlcohol(e),
                 name: e[`str${item}`],
                 image: e[`str${item}Thumb`] };
+
               sendToLocalStorage('favoriteRecipes', objToStore);
             } }
             src={ checkFavorite('favoriteRecipes') ? blackHeartIcon : whiteHeartIcon }
@@ -153,6 +160,9 @@ function RecipeDetails({ requestApi, recipe }) {
               history.push(`${pathname}/in-progress`);
             } }
           >
+            {/* {local
+            && local[`str${item}`] === e[`str${item}`]
+              ? 'Continue Recipe' : 'Start Recipe'} */}
             Continue Recipe
           </button>
         </section>
