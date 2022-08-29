@@ -10,6 +10,7 @@ function RecipeInProgress({ requestApi, recipe }) {
   const idRecipe = id[id.length - 2];
   const path = id[1];
   const [item, setItem] = useState('');
+  const [line, setLine] = useState(false);
 
   useEffect(() => {
     requestApi(path, idRecipe);
@@ -19,10 +20,12 @@ function RecipeInProgress({ requestApi, recipe }) {
   }, []);
 
   const handleClick = (event) => {
-    if (event.target.style.textDecoration) {
-      event.target.style.removeProperty('text-decoration');
+    const { checked, value } = event.target;
+    setLine(value);
+    if (checked) {
+      setLine(true);
     } else {
-      event.target.style.setProperty('text-decoration', 'line-through');
+      setLine(false);
     }
   };
 
@@ -32,7 +35,7 @@ function RecipeInProgress({ requestApi, recipe }) {
     return keysIngredients
       .map((e, i) => {
         const measure = `strMeasure${i + 1}`;
-        if (elem[e] !== null && elem[e].length > 0) {
+        if (elem[e] !== null && elem[e] !== '') {
           return (
             <div>
               <p
@@ -41,12 +44,18 @@ function RecipeInProgress({ requestApi, recipe }) {
               >
                 {`${elem[e]} - ${elem[measure]}`}
               </p>
-              <input
-                value={ i }
-                type="checkbox"
+              <label
+                htmlFor={ e }
                 data-testid={ `${i}-ingredient-step` }
-                onClick={ handleClick }
-              />
+                className={ line ? 'risca' : '' }
+              >
+                <input
+                  name={ e }
+                  value={ i }
+                  type="checkbox"
+                  onClick={ handleClick }
+                />
+              </label>
             </div>
           );
         }

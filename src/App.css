@@ -24,6 +24,10 @@ footer {
   width: 320px;
 }
 
+.risca {
+  text-decoration: 'line-through';
+}
+
 .container-search {
   padding: 10px;
   text-align: center;
@@ -176,3 +180,4 @@ nav {
     transform: rotate(-10deg);
   }
 }
+
