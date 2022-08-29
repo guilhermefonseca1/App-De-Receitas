@@ -1,0 +1,52 @@
+.buttonIcon {
+  background-color: rgba(255, 255, 255, 0);
+  border: 2px;
+  width: 100%;
+}
+
+.containerDoneRecipesItem {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0 auto;
+}
+
+.copyUrl {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.doneRecipesItem {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  height: 26vh;
+  margin: 0 auto;
+}
+
+.shareDoneRecipesItem {
+  display: flex;
+  justify-content: space-around;
+}
+
+.shareIconDoneRecipesItem {
+  margin: 24px;
+  width: 9%;
+}
+
+.tagDoneRecipesItem {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.thumbImage {
+  width: 23vh;
+}
+
+.thumbImageItem {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+}
+

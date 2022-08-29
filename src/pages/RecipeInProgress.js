@@ -94,6 +94,7 @@ function RecipeInProgress({ requestApi, recipe }) {
           />}
           <button
             type="button"
+            name="share"
             // onClick={ () => history.push(`${window.location.pathname}/in-progress`) }
             data-testid="share-btn"
           >
@@ -101,6 +102,7 @@ function RecipeInProgress({ requestApi, recipe }) {
           </button>
           <button
             type="button"
+            name="favorite"
             // onClick={ () => history.push(`${window.location.pathname}/in-progress`) }
             data-testid="favorite-btn"
           >
@@ -108,6 +110,7 @@ function RecipeInProgress({ requestApi, recipe }) {
           </button>
           <button
             type="button"
+            name="finish"
             // onClick={ () => history.push(`${window.location.pathname}/in-progress`) }
             data-testid="finish-recipe-btn"
           >
