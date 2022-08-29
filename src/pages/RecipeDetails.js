@@ -18,10 +18,10 @@ function RecipeDetails({ requestApi, recipe }) {
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
   // const [local, setLocal] = useState(false);
-  const getToLocalStorage = () => {
-    const recipeLocal = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    return setLocal(recipeLocal);
-  };
+  // const getToLocalStorage = () => {
+  //   const recipeLocal = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //   return setLocal(recipeLocal);
+  // };
 
   const sendToLocalStorage = (key, obj) => {
     const previous = JSON.parse(localStorage.getItem(key));
@@ -44,7 +44,7 @@ function RecipeDetails({ requestApi, recipe }) {
   useEffect(() => {
     requestApi(path, idRecipe);
     setItem(path === 'foods' ? 'Meal' : 'Drink');
-    getToLocalStorage();
+    // getToLocalStorage();
   }, []);
 
   const renderIngredients = (elem) => {
