@@ -10,9 +10,11 @@ import SimpleSlider from '../components/Carousel';
 const copy = require('clipboard-copy');
 
 function RecipeDetails({ requestApi, recipe }) {
-  const { location: { pathname } } = useHistory();
-  const history = useHistory();
   const [copied, setCopied] = useState(false);
+  const [search, setSearch] = useState(0);
+  const [clicked, setClicked] = useState(false);
+  const history = useHistory();
+  const { location: { pathname } } = useHistory();
   const id = pathname.split('/');
   const path = id[id.length - 2];
   const idRecipe = id[id.length - 1];
@@ -24,20 +26,25 @@ function RecipeDetails({ requestApi, recipe }) {
   //   return setLocal(recipeLocal);
   // };
 
-  const sendToLocalStorage = (key, obj) => {
+  const sendToLocalStorage = (key, obj, filter) => {
     const previous = JSON.parse(localStorage.getItem(key));
-    if (previous) {
+    if (previous && filter === '') {
       localStorage.setItem(key, JSON.stringify([...previous, obj]));
     }
     if (!previous) {
       localStorage.setItem(key, JSON.stringify([obj]));
     }
+    if (previous && filter === 'filter') {
+      localStorage.setItem(key, JSON.stringify(previous.filter((i) => i.id !== obj.id)));
+    }
   };
 
   const checkFavorite = (key) => {
     const previous = JSON.parse(localStorage.getItem(key));
+    console.log(previous);
     if (previous) {
-      return previous.some((i) => i.id === recipe[0][`id${item}`]);
+      const test = previous.some((i) => i.id === idRecipe);
+      setClicked(test);
     }
   };
 
@@ -45,7 +52,8 @@ function RecipeDetails({ requestApi, recipe }) {
   useEffect(() => {
     requestApi(path, idRecipe);
     setItem(path === 'foods' ? 'Meal' : 'Drink');
-    // getToLocalStorage();
+    checkFavorite('favoriteRecipes');
+    // getToLocalStorage()
   }, []);
 
   const renderIngredients = (elem) => {
@@ -130,10 +138,15 @@ function RecipeDetails({ requestApi, recipe }) {
                 alcoholicOrNot: getAlcohol(e),
                 name: e[`str${item}`],
                 image: e[`str${item}Thumb`] };
-
-              sendToLocalStorage('favoriteRecipes', objToStore);
+              sendToLocalStorage('favoriteRecipes', objToStore, '');
+              setClicked(!clicked);
+              setSearch(search + 1);
+              if (search > 0) {
+                setSearch(0);
+                sendToLocalStorage('favoriteRecipes', objToStore, 'filter');
+              }
             } }
-            src={ checkFavorite('favoriteRecipes') ? blackHeartIcon : whiteHeartIcon }
+            src={ clicked ? blackHeartIcon : whiteHeartIcon }
             alt="Favorito"
           />
 
