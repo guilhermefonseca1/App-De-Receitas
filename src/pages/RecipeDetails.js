@@ -20,6 +20,12 @@ function RecipeDetails({ requestApi, recipe }) {
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
 
+  // const [local, setLocal] = useState(false);
+  // const getToLocalStorage = () => {
+  //   const recipeLocal = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //   return setLocal(recipeLocal);
+  // };
+
   const sendToLocalStorage = (key, obj, filter) => {
     const previous = JSON.parse(localStorage.getItem(key));
     if (previous && filter === '') {
@@ -47,6 +53,7 @@ function RecipeDetails({ requestApi, recipe }) {
     requestApi(path, idRecipe);
     setItem(path === 'foods' ? 'Meal' : 'Drink');
     checkFavorite('favoriteRecipes');
+    // getToLocalStorage()
   }, []);
 
   const renderIngredients = (elem) => {
@@ -167,6 +174,9 @@ function RecipeDetails({ requestApi, recipe }) {
               history.push(`${pathname}/in-progress`);
             } }
           >
+            {/* {local
+            && local[`str${item}`] === e[`str${item}`]
+              ? 'Continue Recipe' : 'Start Recipe'} */}
             Continue Recipe
           </button>
         </section>

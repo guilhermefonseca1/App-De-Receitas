@@ -24,6 +24,10 @@ footer {
   width: 320px;
 }
 
+.risca {
+  text-decoration: 'line-through';
+}
+
 .container-search {
   padding: 10px;
   text-align: center;
@@ -82,7 +86,7 @@ footer {
   font-size: 20px;
   padding: 20px 0;
   position: fixed;
-  width: 100%;
+  width: 360px;
 }
 
 .card-recipe {
@@ -176,3 +180,4 @@ nav {
     transform: rotate(-10deg);
   }
 }
+
