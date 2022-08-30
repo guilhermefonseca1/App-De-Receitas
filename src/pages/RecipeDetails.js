@@ -33,12 +33,14 @@ function RecipeDetails({ requestApi, recipe }) {
     }
   };
 
-  const checkFavorite = (key) => {
+  const checkFavorite = async (key) => {
     const previous = JSON.parse(localStorage.getItem(key));
+    console.log(recipe[0][`id${item}`]);
+    console.log(previous);
     if (previous) {
-      return previous.some((i) => i.id === recipe[0][`id${item}`]);
+      const test = await previous.some((i) => i.id === recipe[0][`id${item}`]);
+      setClicked(test);
     }
-    return false;
   };
 
   let objToStore = {};
@@ -46,6 +48,10 @@ function RecipeDetails({ requestApi, recipe }) {
     requestApi(path, idRecipe);
     setItem(path === 'foods' ? 'Meal' : 'Drink');
   }, []);
+
+  useEffect(() => {
+    checkFavorite('favoriteRecipes');
+  }, [recipe]);
 
   const renderIngredients = (elem) => {
     const keysIngredients = Object.keys(recipe[0])
@@ -130,14 +136,14 @@ function RecipeDetails({ requestApi, recipe }) {
                 name: e[`str${item}`],
                 image: e[`str${item}Thumb`] };
               sendToLocalStorage('favoriteRecipes', objToStore, '');
-              setSearch(search + 1);
               setClicked(!clicked);
+              setSearch(search + 1);
               if (search > 0) {
                 setSearch(0);
                 sendToLocalStorage('favoriteRecipes', objToStore, 'filter');
               }
             } }
-            src={checkFavorite('favoriteRecipes') || clicked ? blackHeartIcon : whiteHeartIcon }
+            src={ clicked ? blackHeartIcon : whiteHeartIcon }
             alt="Favorito"
           />
 
