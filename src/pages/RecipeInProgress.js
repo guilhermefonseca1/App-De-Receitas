@@ -3,6 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { detailsAction } from '../redux/actions';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
+
+const copy = require('clipboard-copy');
 
 function RecipeInProgress({ requestApi, recipe }) {
   const { location: { pathname } } = useHistory();
@@ -11,12 +16,41 @@ function RecipeInProgress({ requestApi, recipe }) {
   const path = id[1];
   const [item, setItem] = useState('');
   const [line, setLine] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  const [search, setSearch] = useState(0);
+
+  let objToStore = {};
+
+  const sendToLocalStorage = (key, obj, filter) => {
+    const previous = JSON.parse(localStorage.getItem(key));
+    if (previous && filter === '') {
+      localStorage.setItem(key, JSON.stringify([...previous, obj]));
+    }
+    if (!previous) {
+      localStorage.setItem(key, JSON.stringify([obj]));
+    }
+    if (previous && filter === 'filter') {
+      localStorage.setItem(key, JSON.stringify(previous.filter((i) => i.id !== obj.id)));
+    }
+  };
+
+  const checkFavorite = (key) => {
+    const previous = JSON.parse(localStorage.getItem(key));
+
+    if (previous) {
+      console.log('entrei');
+      const test = previous.some((i) => i.id === idRecipe);
+      setClicked(test);
+    }
+  };
 
   useEffect(() => {
     requestApi(path, idRecipe);
     setItem(
       path === 'foods' ? 'Meal' : 'Drink',
     );
+    checkFavorite('favoriteRecipes');
   }, []);
 
   const handleClick = (event) => {
@@ -62,7 +96,24 @@ function RecipeInProgress({ requestApi, recipe }) {
         return '';
       });
   };
+  const getClipBoard = async (arg) => {
+    const time = 5000;
+    await copy(arg).then(setCopied(true));
+    setInterval(() => setCopied(false), time);
+  };
+  const getAlcohol = (obj) => {
+    if (path === 'foods') {
+      return '';
+    }
+    return obj.strAlcoholic;
+  };
 
+  const getNationality = (obj) => {
+    if (path === 'foods') {
+      return obj.strArea;
+    }
+    return '';
+  };
   return (
     <div>
       Recipe In progress
@@ -92,22 +143,40 @@ function RecipeInProgress({ requestApi, recipe }) {
             data-testid="video"
             title={ e[`str${item}`] }
           />}
-          <button
-            type="button"
-            name="share"
-            // onClick={ () => history.push(`${window.location.pathname}/in-progress`) }
+          <input
+            type="image"
             data-testid="share-btn"
-          >
-            share
-          </button>
-          <button
-            type="button"
-            name="favorite"
-            // onClick={ () => history.push(`${window.location.pathname}/in-progress`) }
+            onClick={ () => {
+              getClipBoard(`http://localhost:3000/${path}/${idRecipe}`);
+            } }
+            src={ shareIcon }
+            alt="ShareIcon"
+          />
+          { copied && <p>Link copied! </p>}
+          <input
+            type="image"
             data-testid="favorite-btn"
-          >
-            favoritar
-          </button>
+            onClick={ () => {
+              const sliced = -1;
+              objToStore = {
+                id: e[`id${item}`],
+                type: path.slice(0, sliced),
+                nationality: getNationality(e),
+                category: e.strCategory,
+                alcoholicOrNot: getAlcohol(e),
+                name: e[`str${item}`],
+                image: e[`str${item}Thumb`] };
+              sendToLocalStorage('favoriteRecipes', objToStore, '');
+              setClicked(!clicked);
+              setSearch(search + 1);
+              if (search > 0) {
+                setSearch(0);
+                sendToLocalStorage('favoriteRecipes', objToStore, 'filter');
+              }
+            } }
+            src={ clicked ? blackHeartIcon : whiteHeartIcon }
+            alt="Favorito"
+          />
           <button
             type="button"
             name="finish"
