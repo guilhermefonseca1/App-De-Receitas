@@ -3,6 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { detailsAction } from '../redux/actions';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
+
+const copy = require('clipboard-copy');
 
 function RecipeInProgress({ requestApi, recipe }) {
   const { location: { pathname } } = useHistory();
@@ -11,13 +16,58 @@ function RecipeInProgress({ requestApi, recipe }) {
   const path = id[1];
   const [item, setItem] = useState('');
   const [line, setLine] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
+  let objToStore = {};
+  let test = '';
+
+  const checkFavorite = async (key) => {
+    const previous = JSON.parse(localStorage.getItem(key));
+    console.log(previous);
+    if (previous) {
+      const test2 = previous.some((i) => i.id === idRecipe);
+      console.log(test2);
+      setClicked(test2);
+    }
+  };
 
   useEffect(() => {
     requestApi(path, idRecipe);
     setItem(
       path === 'foods' ? 'Meal' : 'Drink',
     );
+    test = recipe;
+    console.log(recipe);
   }, []);
+  const sendToLocalStorage = (key, obj) => {
+    const previous = JSON.parse(localStorage.getItem(key));
+    if (previous) {
+      localStorage.setItem(key, JSON.stringify([...previous, obj]));
+    }
+    if (!previous) {
+      localStorage.setItem(key, JSON.stringify([obj]));
+    }
+  };
+
+  const getClipBoard = async (arg) => {
+    const time = 5000;
+    await copy(arg).then(setCopied(true));
+    setInterval(() => setCopied(false), time);
+  };
+  const getAlcohol = (obj) => {
+    if (path === 'foods') {
+      return '';
+    }
+    return obj.strAlcoholic;
+  };
+
+  const getNationality = (obj) => {
+    if (path === 'foods') {
+      return obj.strArea;
+    }
+    return '';
+  };
 
   const handleClick = (event) => {
     const { checked, value } = event.target;
@@ -92,22 +142,37 @@ function RecipeInProgress({ requestApi, recipe }) {
             data-testid="video"
             title={ e[`str${item}`] }
           />}
-          <button
-            type="button"
-            name="share"
-            // onClick={ () => history.push(`${window.location.pathname}/in-progress`) }
+          <input
+            type="image"
             data-testid="share-btn"
-          >
-            share
-          </button>
-          <button
-            type="button"
-            name="favorite"
-            // onClick={ () => history.push(`${window.location.pathname}/in-progress`) }
+            onClick={ () => {
+              getClipBoard(`http://localhost:3000/${path}/${idRecipe}`);
+            } }
+            src={ shareIcon }
+            alt="ShareIcon"
+          />
+          { copied && <p>Link copied! </p>}
+
+          <input
+            type="image"
             data-testid="favorite-btn"
-          >
-            favoritar
-          </button>
+            onClick={ () => {
+              const sliced = -1;
+              objToStore = {
+                id: e[`id${item}`],
+                type: path.slice(0, sliced),
+                nationality: getNationality(e),
+                category: e.strCategory,
+                alcoholicOrNot: getAlcohol(e),
+                name: e[`str${item}`],
+                image: e[`str${item}Thumb`] };
+
+              sendToLocalStorage('favoriteRecipes', objToStore);
+              checkFavorite('favoriteRecipes');
+            } }
+            src={ clicked ? blackHeartIcon : whiteHeartIcon }
+            alt="Favorito"
+          />
           <button
             type="button"
             name="finish"
