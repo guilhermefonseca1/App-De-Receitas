@@ -31,9 +31,9 @@ describe('Tests to page DoneRecipes', () => {
 
   it('Verify if the component DoneRecipes renders correctly', async () => {
     const {history} = renderWithRouterAndRedux(<App/>);
-    history.push('/done-recipes');
+    history.push('/favorite-recipes');
 
-    expect(history.location.pathname).toBe('/done-recipes');
+    expect(history.location.pathname).toBe('/favorite-recipes');
 
     const doneRecipes = await screen.findByTestId('filter-by-all-btn');
     expect(doneRecipes).toBeDefined();
