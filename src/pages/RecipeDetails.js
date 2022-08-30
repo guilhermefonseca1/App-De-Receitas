@@ -17,7 +17,6 @@ function RecipeDetails({ requestApi, recipe }) {
   const path = id[id.length - 2];
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
-  // const sendToLocalStorage = (key, obj) => localStorage.setItem(key, JSON.stringify(obj));
 
   // const [local, setLocal] = useState(false);
   // const getToLocalStorage = () => {

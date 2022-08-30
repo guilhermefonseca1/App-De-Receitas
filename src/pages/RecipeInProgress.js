@@ -18,17 +18,30 @@ function RecipeInProgress({ requestApi, recipe }) {
   const [line, setLine] = useState(false);
   const [copied, setCopied] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [search, setSearch] = useState(0);
 
   let objToStore = {};
-  let test = '';
 
-  const checkFavorite = async (key) => {
+  const sendToLocalStorage = (key, obj, filter) => {
     const previous = JSON.parse(localStorage.getItem(key));
-    console.log(previous);
+    if (previous && filter === '') {
+      localStorage.setItem(key, JSON.stringify([...previous, obj]));
+    }
+    if (!previous) {
+      localStorage.setItem(key, JSON.stringify([obj]));
+    }
+    if (previous && filter === 'filter') {
+      localStorage.setItem(key, JSON.stringify(previous.filter((i) => i.id !== obj.id)));
+    }
+  };
+
+  const checkFavorite = (key) => {
+    const previous = JSON.parse(localStorage.getItem(key));
+
     if (previous) {
-      const test2 = previous.some((i) => i.id === idRecipe);
-      console.log(test2);
-      setClicked(test2);
+      console.log('entrei');
+      const test = previous.some((i) => i.id === idRecipe);
+      setClicked(test);
     }
   };
 
@@ -37,37 +50,8 @@ function RecipeInProgress({ requestApi, recipe }) {
     setItem(
       path === 'foods' ? 'Meal' : 'Drink',
     );
-    test = recipe;
-    console.log(recipe);
+    checkFavorite('favoriteRecipes');
   }, []);
-  const sendToLocalStorage = (key, obj) => {
-    const previous = JSON.parse(localStorage.getItem(key));
-    if (previous) {
-      localStorage.setItem(key, JSON.stringify([...previous, obj]));
-    }
-    if (!previous) {
-      localStorage.setItem(key, JSON.stringify([obj]));
-    }
-  };
-
-  const getClipBoard = async (arg) => {
-    const time = 5000;
-    await copy(arg).then(setCopied(true));
-    setInterval(() => setCopied(false), time);
-  };
-  const getAlcohol = (obj) => {
-    if (path === 'foods') {
-      return '';
-    }
-    return obj.strAlcoholic;
-  };
-
-  const getNationality = (obj) => {
-    if (path === 'foods') {
-      return obj.strArea;
-    }
-    return '';
-  };
 
   const handleClick = (event) => {
     const { checked, value } = event.target;
@@ -112,7 +96,24 @@ function RecipeInProgress({ requestApi, recipe }) {
         return '';
       });
   };
+  const getClipBoard = async (arg) => {
+    const time = 5000;
+    await copy(arg).then(setCopied(true));
+    setInterval(() => setCopied(false), time);
+  };
+  const getAlcohol = (obj) => {
+    if (path === 'foods') {
+      return '';
+    }
+    return obj.strAlcoholic;
+  };
 
+  const getNationality = (obj) => {
+    if (path === 'foods') {
+      return obj.strArea;
+    }
+    return '';
+  };
   return (
     <div>
       Recipe In progress
@@ -152,7 +153,6 @@ function RecipeInProgress({ requestApi, recipe }) {
             alt="ShareIcon"
           />
           { copied && <p>Link copied! </p>}
-
           <input
             type="image"
             data-testid="favorite-btn"
@@ -166,9 +166,13 @@ function RecipeInProgress({ requestApi, recipe }) {
                 alcoholicOrNot: getAlcohol(e),
                 name: e[`str${item}`],
                 image: e[`str${item}Thumb`] };
-
-              sendToLocalStorage('favoriteRecipes', objToStore);
-              checkFavorite('favoriteRecipes');
+              sendToLocalStorage('favoriteRecipes', objToStore, '');
+              setClicked(!clicked);
+              setSearch(search + 1);
+              if (search > 0) {
+                setSearch(0);
+                sendToLocalStorage('favoriteRecipes', objToStore, 'filter');
+              }
             } }
             src={ clicked ? blackHeartIcon : whiteHeartIcon }
             alt="Favorito"
