@@ -1,18 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-function Profile({ email }) {
-  const renderUserEmail = () => {
-    if (email !== '') {
-      const userObj = (window.localStorage.getItem('user') || []);
-      const obj = JSON.parse(userObj);
-      const userEmail = obj.email;
-      return userEmail;
+function Profile() {
+  const getUser = () => {
+    const email = JSON.parse(localStorage.getItem('user'));
+    if (email === null) {
+      return '';
     }
+    return email.email;
   };
   const history = useHistory();
 
@@ -20,7 +17,7 @@ function Profile({ email }) {
     <div>
       <Header page="Profile" search={ false } />
       <section>
-        <p data-testid="profile-email">{renderUserEmail()}</p>
+        <p data-testid="profile-email">{getUser()}</p>
         <button
           type="button"
           data-testid="profile-done-btn"
@@ -28,8 +25,22 @@ function Profile({ email }) {
         >
           Done Recipes
         </button>
-        <button type="button" data-testid="profile-favorite-btn">Favorite Recipes</button>
-        <button type="button" data-testid="profile-logout-btn">Logout</button>
+        <button
+          type="button"
+          data-testid="profile-favorite-btn"
+          onClick={ () => history.push('/favorite-recipes') }
+        >
+          Favorite Recipes
+
+        </button>
+        <button
+          type="button"
+          data-testid="profile-logout-btn"
+          onClick={ () => { localStorage.clear(); history.push('/'); } }
+        >
+          Logout
+
+        </button>
 
       </section>
       <Footer />
@@ -37,12 +48,4 @@ function Profile({ email }) {
   );
 }
 
-const mapStateToProps = (store) => ({
-  email: store.user.email,
-});
-
-Profile.propTypes = {
-  email: PropTypes.string.isRequired,
-};
-
-export default connect(mapStateToProps, null)(Profile);
+export default Profile;
