@@ -2,24 +2,51 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import { detailsAction } from '../redux/actions';
 import SimpleSlider from '../components/Carousel';
 
 const copy = require('clipboard-copy');
 
 function RecipeDetails({ requestApi, recipe }) {
-  const [copied, setCopied] = useState(false);
-  const history = useHistory();
   const { location: { pathname } } = useHistory();
+  const history = useHistory();
+  const [copied, setCopied] = useState(false);
   const id = pathname.split('/');
   const path = id[id.length - 2];
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
-  const sendToLocalStorage = (key, obj) => localStorage.setItem(key, JSON.stringify(obj));
+  // const sendToLocalStorage = (key, obj) => localStorage.setItem(key, JSON.stringify(obj));
 
+  // const [local, setLocal] = useState(false);
+  // const getToLocalStorage = () => {
+  //   const recipeLocal = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //   return setLocal(recipeLocal);
+  // };
+
+  const sendToLocalStorage = (key, obj) => {
+    const previous = JSON.parse(localStorage.getItem(key));
+    if (previous) {
+      localStorage.setItem(key, JSON.stringify([...previous, obj]));
+    }
+    if (!previous) {
+      localStorage.setItem(key, JSON.stringify([obj]));
+    }
+  };
+
+  const checkFavorite = (key) => {
+    const previous = JSON.parse(localStorage.getItem(key));
+    if (previous) {
+      return previous.some((i) => i.id === recipe[0][`id${item}`]);
+    }
+  };
+
+  let objToStore = {};
   useEffect(() => {
     requestApi(path, idRecipe);
     setItem(path === 'foods' ? 'Meal' : 'Drink');
+    // getToLocalStorage();
   }, []);
 
   const renderIngredients = (elem) => {
@@ -48,6 +75,20 @@ function RecipeDetails({ requestApi, recipe }) {
     setInterval(() => setCopied(false), time);
   };
 
+  const getAlcohol = (obj) => {
+    if (path === 'foods') {
+      return '';
+    }
+    return obj.strAlcoholic;
+  };
+
+  const getNationality = (obj) => {
+    if (path === 'foods') {
+      return obj.strArea;
+    }
+    return '';
+  };
+
   return (
     <div>
       { copied && <p>Link copied! </p>}
@@ -70,16 +111,33 @@ function RecipeDetails({ requestApi, recipe }) {
           <button
             type="button"
             data-testid="share-btn"
-            onClick={ () => getClipBoard(`http://localhost:3000${pathname}`) }
+            onClick={ () => {
+              getClipBoard(`http://localhost:3000${pathname}`);
+            } }
           >
             Share
           </button>
-          <button
-            type="button"
+
+          <input
+            type="image"
             data-testid="favorite-btn"
-          >
-            Favorite
-          </button>
+            onClick={ () => {
+              const sliced = -1;
+              objToStore = {
+                id: e[`id${item}`],
+                type: path.slice(0, sliced),
+                nationality: getNationality(e),
+                category: e.strCategory,
+                alcoholicOrNot: getAlcohol(e),
+                name: e[`str${item}`],
+                image: e[`str${item}Thumb`] };
+
+              sendToLocalStorage('favoriteRecipes', objToStore);
+            } }
+            src={ checkFavorite('favoriteRecipes') ? blackHeartIcon : whiteHeartIcon }
+            alt="Favorito"
+          />
+
           <div>{renderIngredients(e)}</div>
 
           <h3>Instructions</h3>
@@ -104,6 +162,9 @@ function RecipeDetails({ requestApi, recipe }) {
               history.push(`${pathname}/in-progress`);
             } }
           >
+            {/* {local
+            && local[`str${item}`] === e[`str${item}`]
+              ? 'Continue Recipe' : 'Start Recipe'} */}
             Continue Recipe
           </button>
         </section>
