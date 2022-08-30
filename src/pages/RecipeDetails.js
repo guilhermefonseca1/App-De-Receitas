@@ -33,12 +33,11 @@ function RecipeDetails({ requestApi, recipe }) {
     }
   };
 
-  const checkFavorite = async (key) => {
+  const checkFavorite = (key) => {
     const previous = JSON.parse(localStorage.getItem(key));
-    console.log(recipe[0][`id${item}`]);
     console.log(previous);
     if (previous) {
-      const test = await previous.some((i) => i.id === recipe[0][`id${item}`]);
+      const test = previous.some((i) => i.id === idRecipe);
       setClicked(test);
     }
   };
@@ -47,11 +46,8 @@ function RecipeDetails({ requestApi, recipe }) {
   useEffect(() => {
     requestApi(path, idRecipe);
     setItem(path === 'foods' ? 'Meal' : 'Drink');
-  }, []);
-
-  useEffect(() => {
     checkFavorite('favoriteRecipes');
-  }, [recipe]);
+  }, []);
 
   const renderIngredients = (elem) => {
     const keysIngredients = Object.keys(recipe[0])
