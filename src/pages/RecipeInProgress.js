@@ -9,8 +9,11 @@ import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
+const auxArray = [];
+
 function RecipeInProgress({ requestApi, recipe }) {
   const { location: { pathname } } = useHistory();
+  const history = useHistory();
   const id = pathname.split('/');
   const idRecipe = id[id.length - 2];
   const path = id[1];
@@ -19,6 +22,8 @@ function RecipeInProgress({ requestApi, recipe }) {
   const [copied, setCopied] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [search, setSearch] = useState(0);
+  const [button, setButton] = useState(true);
+  const [newArray, setNewArray] = useState([]);
 
   let objToStore = {};
 
@@ -37,9 +42,7 @@ function RecipeInProgress({ requestApi, recipe }) {
 
   const checkFavorite = (key) => {
     const previous = JSON.parse(localStorage.getItem(key));
-
     if (previous) {
-      console.log('entrei');
       const test = previous.some((i) => i.id === idRecipe);
       setClicked(test);
     }
@@ -53,13 +56,26 @@ function RecipeInProgress({ requestApi, recipe }) {
     checkFavorite('favoriteRecipes');
   }, []);
 
+  useEffect(() => {
+    if (recipe[0] !== undefined) {
+      const arrayOfIngredients = Object.keys(recipe[0]).filter((e, i) => e
+        .includes('strIngredient') && Object.values(recipe[0])[i] !== ''
+        && Object.values(recipe[0])[i] !== null);
+      setNewArray(arrayOfIngredients);
+    }
+  }, [recipe]);
+
   const handleClick = (event) => {
     const { checked, value } = event.target;
+    auxArray.push(value);
     setLine(value);
     if (checked) {
       setLine(true);
     } else {
       setLine(false);
+    }
+    if (auxArray.length === newArray.length) {
+      setButton(false);
     }
   };
 
@@ -180,10 +196,11 @@ function RecipeInProgress({ requestApi, recipe }) {
           <button
             type="button"
             name="finish"
-            // onClick={ () => history.push(`${window.location.pathname}/in-progress`) }
+            disabled={ button }
+            onClick={ () => history.push('/done-recipes') }
             data-testid="finish-recipe-btn"
           >
-            finish
+            Finish Recipe
           </button>
 
         </section>
