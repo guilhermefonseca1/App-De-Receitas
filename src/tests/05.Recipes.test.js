@@ -41,6 +41,11 @@ describe('Tests to page recipes', () => {
     userEvent.click(recipeBtn);
     expect(history.location.pathname).toBe('/foods/52977');
 
+    const shareBtn = await screen.findByTestId("share-btn")
+    const favoriteBtn = await screen.findByTestId("favorite-btn")
+    userEvent.click(shareBtn)
+    userEvent.click(favoriteBtn)
+
     const recipeTitle = screen.findByRole('heading', { name: /Corba/i });
     expect(recipeTitle).toBeDefined();
 
@@ -83,5 +88,5 @@ describe('Tests to page recipes', () => {
 
     expect(getRecipesAction(meals, '')).toEqual(expectedResult);
   });
-  //
+
 });
