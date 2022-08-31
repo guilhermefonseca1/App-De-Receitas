@@ -23,7 +23,7 @@ describe('Tests page Recipes in progress', () => {
       details: [],
       categories: []
     }
-  };
+  }
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -37,7 +37,7 @@ describe('Tests page Recipes in progress', () => {
   });
   
   it('Test page buttons on drinks', async () => {
-      const {history} = renderWithRouterAndRedux(<App/>);
+      const {history} = renderWithRouterAndRedux(<App />);
       history.push('/drinks/17222/in-progress')
       const { pathname } = history.location;
       expect(pathname).toBe('/drinks/17222/in-progress');
@@ -54,14 +54,14 @@ describe('Tests page Recipes in progress', () => {
    const title = screen.getByText(/recipe in progress/i)
    expect(title).toBeInTheDocument()
    });
-  
+
    it('test recipe elemts in drinks', async () => {
-    const {history} = renderWithRouterAndRedux(<App/>);
+    const {history} = renderWithRouterAndRedux(<App />);
     history.push('/drinks/17222/in-progress');
     const { pathname } = history.location;
     expect(pathname).toBe('/drinks/17222/in-progress');
     const recipeBtn = await screen.findByTestId("favorite-btn")
     expect(recipeBtn).toBeDefined();
   });
-});
+  })
 
