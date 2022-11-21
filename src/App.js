@@ -14,7 +14,7 @@ import 'slick-carousel/slick/slick-theme.css';
 
 function App() {
   return (
-    <div className="meals">
+    <div>
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route exact path="/foods" component={ Foods } />

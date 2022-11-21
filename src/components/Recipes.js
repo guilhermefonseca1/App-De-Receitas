@@ -35,7 +35,7 @@ function Recipes({ requestApi, recipes, categories, dispatchApi, details }) {
       <nav>
         {auxCategories.map((i, index) => (
           <button
-            className="btn-recipes"
+            className={ path[1] === 'drinks' ? 'btn-recipes-drinks' : 'btn-recipes' }
             type="button"
             key={ index }
             value={ i }
@@ -47,10 +47,10 @@ function Recipes({ requestApi, recipes, categories, dispatchApi, details }) {
               }
             } }
           >
-            {i}
+            {i === 'Other/Unknown' ? 'Other/ Unknown' : i}
           </button>))}
         <button
-          className="btn-recipes"
+          className={ path[1] === 'drinks' ? 'btn-recipes-drinks' : 'btn-recipes' }
           type="button"
           data-testid="All-category-filter"
           onClick={ () => setFilter(!filter) }
@@ -75,7 +75,13 @@ function Recipes({ requestApi, recipes, categories, dispatchApi, details }) {
               alt={ i[`str${keyApi}`] }
               className="img-recipes"
             />
-            <p data-testid={ `${index}-card-name` }>{i[`str${keyApi}`]}</p>
+            <p
+              data-testid={ `${index}-card-name` }
+              className="title-recipes"
+            >
+              {i[`str${keyApi}`]}
+
+            </p>
           </button>
         ))
       }

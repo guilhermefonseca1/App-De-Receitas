@@ -27,8 +27,10 @@ function DoneRecipes() {
   return (
     <div className="doneRecipes">
       <Header page="Done Recipes" search={ false } />
-      <div>
+      <span className="span-margin" />
+      <nav>
         <button
+          className="btn-recipes"
           type="button"
           data-testid="filter-by-all-btn"
           name="all"
@@ -37,6 +39,7 @@ function DoneRecipes() {
           All
         </button>
         <button
+          className="btn-recipes"
           type="button"
           data-testid="filter-by-food-btn"
           name="food"
@@ -45,6 +48,7 @@ function DoneRecipes() {
           Foods
         </button>
         <button
+          className="btn-recipes"
           type="button"
           data-testid="filter-by-drink-btn"
           name="drink"
@@ -52,7 +56,7 @@ function DoneRecipes() {
         >
           Drinks
         </button>
-      </div>
+      </nav>
       <ElementsDoneRecipes doneRecipes={ filterRecipes } />
     </div>
   );

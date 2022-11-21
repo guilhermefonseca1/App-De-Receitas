@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap') ;
+
 body {
-  background: #0fa36b;
+  background: #6e59b9;
   height: 100vh;
   width: 360px;
 }
@@ -39,17 +41,87 @@ footer {
   width: 340px;
 }
 
+.input-search {
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 5px;
+}
+
+.btn-search {
+  border: 0.5px solid;
+  border-radius: 10px;
+  font-size: 18px;
+  margin-left: 10px;
+  padding: 5px  10px;
+}
+
+.radio-search {
+  font-size: 20px;
+}
+
+
+.container-radio {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.span-margin {
+  display: block;
+  margin-bottom: 50px;
+}
+
+.title-logo {
+  font-family: Cinzel Decorative , cursive;
+  font-size: 50px;
+  line-height: 5px;
+}
+
+.title-page {
+  font-family: Cinzel Decorative , cursive;
+}
+
+.input-login {
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  margin: 5px 0;
+  padding: 5px 8px;
+}
+
+.btn-login {
+  border-radius: 10px;
+  color: black;
+  font-size: 20px;
+  margin-top: 10px;
+  padding: 5px 20px;
+}
+
+.container-login {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
 .meals {
-  background: #0fa36b;
-  color: #464646;
+  align-items: center;
+  background: #6e59b9;
+  color: #fafafa;
+  display: flex;
+  flex-direction: column;
   font-family: sans-serif;
   height: 100vh;
+  justify-content: center;
   width: 100%;
 }
 
 .rocksGlass {
   animation: shake 1s infinite ease;
-  max-height: 80vh;
+  margin: 10px 0;
+  max-height: 50vh;
+  width: 30%;
 }
 
 .container-carousel {
@@ -66,12 +138,13 @@ footer {
 }
 
 .img-carousel {
-  margin: 20px 40px;
+  margin: 20px 30px;
   width: 50%;
 }
 
 .container-details {
   align-items: center;
+  color: white;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -80,13 +153,31 @@ footer {
 }
 
 .startRecipes {
-  background-color: rgb(36, 242, 21);
+  background-color: rgb(77, 161, 103);
   border: none;
   bottom: 0;
-  font-size: 20px;
-  padding: 20px 0;
+  color: white;
+  font-family: Cinzel Decorative , cursive;
+  font-size: 25px;
+  padding: 15px 0;
   position: fixed;
   width: 360px;
+}
+
+.btn-finish {
+  background-color: rgb(7, 7, 7);
+  color: white;
+  font-family: Cinzel Decorative , cursive;
+  font-size: 25px;
+  margin-bottom: -50px;
+  margin-top: 20px;
+  padding: 15px 0;
+  width: 360px;
+}
+
+.btn-finish:disabled {
+  background-color: rgb(49, 49, 49);
+  color: rgb(173, 172, 172);
 }
 
 .card-recipe {
@@ -105,11 +196,17 @@ nav {
   flex-flow: row wrap;
   justify-content: space-evenly;
   margin-bottom: 60px;
-  margin-top: 30px;
+  margin-top: -30px;
 }
 
 .img-recipes {
   width: 100px;
+}
+
+.title-recipes {
+  font-family: Cinzel Decorative , cursive;
+  font-size: 20px;
+  font-weight: 900;
 }
 
 .container-recipes {
@@ -124,8 +221,81 @@ nav {
   border-radius: 10px;
   font-size: 20px;
   margin-bottom: 10px;
+  padding: 15px 0;
+  width: 100px;
+}
+
+.btn-recipes-drinks {
+  border: 0;
+  border-radius: 10px;
+  font-size: 20px;
+  height: 60px;
+  margin-bottom: 10px;
   padding: 5px 0;
   width: 100px;
+}
+
+.img-details {
+  margin-top: -50px;
+  width: 110%;
+}
+
+.container-title {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.title-details {
+  font-family: Cinzel Decorative , cursive;
+  font-size: 35px;
+  line-height: 5px;
+}
+
+.titles-details {
+  border-bottom: 2px solid;
+  border-top: 2px solid;
+  font-size: 22px;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.category {
+  font-size: 20px;
+  line-height: 5px;
+  margin-top: 0;
+  width: 100%;
+}
+
+.instructions {
+  font-size: 22px;
+  padding: 10px;
+  text-align: justify;
+}
+
+.ingredient {
+  font-size: 20px;
+  padding: 5px;
+  width: 165px;
+}
+
+.quantity {
+  border-left: 2px solid;
+  font-size: 20px;
+  padding-left: 20px;
+}
+
+.title-carousel {
+  color: black;
+  font-size: 20px;
+}
+
+.container-checkbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
 }
 
 /*
@@ -150,6 +320,89 @@ nav {
   font-weight: 900;
 }
 
+.container-profile {
+  align-items: center;
+  color: aliceblue;
+  display: flex;
+  flex-direction: column;
+  font-family: Cinzel Decorative , cursive;
+  font-size: 20px;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.btn-done {
+  background-color: rgb(77, 161, 103);
+  border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+  font-family: Cinzel Decorative , cursive;
+  font-size: 25px;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
+.btn-favorite {
+  background-color: rgb(112, 22, 30);
+  border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+  font-family: Cinzel Decorative , cursive;
+  font-size: 25px;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
+.btn-logout {
+  background-color: rgb(7, 7, 7);
+  border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+  font-family: Cinzel Decorative , cursive;
+  font-size: 25px;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
+.title-logo-profile {
+  font-family: Cinzel Decorative , cursive;
+  font-size: 40px;
+  line-height: 5px;
+}
+
+.img-favorite {
+  margin-left: 30px;
+  width: 150px;
+}
+
+.card-favorite {
+  align-items: center;
+  background: rgba(185, 182, 182, 0.389);
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 50px;
+  margin-top: -30px;
+  padding: 20px 10px;
+  width: 100%;
+}
+
+.container-favorite {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  width: 200px;
+}
+
+.btn-margin {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 90px;
+}
 
 @keyframes shake {
 

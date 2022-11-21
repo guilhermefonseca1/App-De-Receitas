@@ -87,26 +87,28 @@ function RecipeInProgress({ requestApi, recipe }) {
         const measure = `strMeasure${i + 1}`;
         if (elem[e] !== null && elem[e] !== '') {
           return (
-            <div>
-              <p
+            <tr className="container-checkbox">
+              <td
                 key={ i }
                 data-testid={ `${i}-ingredient-name-and-measure` }
               >
-                {`${elem[e]} - ${elem[measure]}`}
-              </p>
-              <label
-                htmlFor={ e }
-                data-testid={ `${i}-ingredient-step` }
-                className={ line ? 'risca' : '' }
-              >
-                <input
-                  name={ e }
-                  value={ i }
-                  type="checkbox"
-                  onClick={ handleClick }
-                />
-              </label>
-            </div>
+                <label
+                  htmlFor={ e }
+                  data-testid={ `${i}-ingredient-step` }
+                  className={ line ? 'risca' : '' }
+                >
+                  <input
+                    name={ e }
+                    value={ i }
+                    type="checkbox"
+                    onClick={ handleClick }
+                  />
+                  <td className="ingredient">{elem[e]}</td>
+                  <td className="quantity">{elem[measure]}</td>
+
+                </label>
+              </td>
+            </tr>
           );
         }
         return '';
@@ -132,68 +134,95 @@ function RecipeInProgress({ requestApi, recipe }) {
   };
   return (
     <div>
-      Recipe In progress
       {recipe.map((e) => (
-        <section key={ e[`id${item}`] }>
-          <h1 data-testid="recipe-title">{e[`str${item}`]}</h1>
-          <h3 data-testid="recipe-category">
-            Category:
-            {e.strCategory}
-          </h3>
-          {path === 'drinks' && <h4 data-testid="recipe-category">{e.strAlcoholic}</h4>}
+        <section key={ e[`id${item}`] } className="container-details">
           <img
             src={ e[`str${item}Thumb`] }
             alt="Recipe"
             width="30%"
             data-testid="recipe-photo"
+            className="img-details"
           />
-          <h3>Ingredients</h3>
-          { renderIngredients(e)}
-          <h3>Instructions</h3>
-          <p data-testid="instructions">{e.strInstructions}</p>
+          <div className="container-title">
+            <h1 data-testid="recipe-title">{e[`str${item}`]}</h1>
+
+            <div>
+              <button
+                type="button"
+                data-testid="share-btn"
+                onClick={ () => {
+                  getClipBoard(`http://localhost:3000/${path}/${idRecipe}`);
+                } }
+
+              >
+                <img
+                  src={ shareIcon }
+                  alt="ShareIcon"
+                />
+              </button>
+              <button
+                type="button"
+                data-testid="favorite-btn"
+                onClick={ () => {
+                  const sliced = -1;
+                  objToStore = {
+                    id: e[`id${item}`],
+                    type: path.slice(0, sliced),
+                    nationality: getNationality(e),
+                    category: e.strCategory,
+                    alcoholicOrNot: getAlcohol(e),
+                    name: e[`str${item}`],
+                    image: e[`str${item}Thumb`] };
+                  sendToLocalStorage('favoriteRecipes', objToStore, '');
+                  setClicked(!clicked);
+                  setSearch(search + 1);
+                  if (search > 0) {
+                    setSearch(0);
+                    sendToLocalStorage('favoriteRecipes', objToStore, 'filter');
+                  }
+                } }
+
+              >
+                <img
+                  src={ clicked ? blackHeartIcon : whiteHeartIcon }
+                  alt="Favorito"
+                />
+              </button>
+              { copied && <p>Link copied! </p>}
+            </div>
+          </div>
+          <h3 data-testid="recipe-category" className="category">
+            Category:
+            {e.strCategory}
+          </h3>
+          {path === 'drinks'
+          && (
+            <h4
+              data-testid="recipe-category"
+              className="category"
+            >
+              {e.strAlcoholic}
+            </h4>
+          )}
+          <h3 className="titles-details ">Ingredients</h3>
+          <table>
+            <tbody>
+              { renderIngredients(e)}
+            </tbody>
+          </table>
+          <h3 className="titles-details ">Instructions</h3>
+          <p data-testid="instructions" className="instructions">{e.strInstructions}</p>
           {path === 'foods'
           && <iframe
             width="320"
             height="220"
-            src={ e.strYoutube }
+            src={ e.strYoutube.replace('watch', 'embed') }
             data-testid="video"
             title={ e[`str${item}`] }
           />}
-          <input
-            type="image"
-            data-testid="share-btn"
-            onClick={ () => {
-              getClipBoard(`http://localhost:3000/${path}/${idRecipe}`);
-            } }
-            src={ shareIcon }
-            alt="ShareIcon"
-          />
-          { copied && <p>Link copied! </p>}
-          <input
-            type="image"
-            data-testid="favorite-btn"
-            onClick={ () => {
-              const sliced = -1;
-              objToStore = {
-                id: e[`id${item}`],
-                type: path.slice(0, sliced),
-                nationality: getNationality(e),
-                category: e.strCategory,
-                alcoholicOrNot: getAlcohol(e),
-                name: e[`str${item}`],
-                image: e[`str${item}Thumb`] };
-              sendToLocalStorage('favoriteRecipes', objToStore, '');
-              setClicked(!clicked);
-              setSearch(search + 1);
-              if (search > 0) {
-                setSearch(0);
-                sendToLocalStorage('favoriteRecipes', objToStore, 'filter');
-              }
-            } }
-            src={ clicked ? blackHeartIcon : whiteHeartIcon }
-            alt="Favorito"
-          />
+
           <button
+            className="btn-finish"
             type="button"
             name="finish"
             disabled={ button }
@@ -204,22 +233,17 @@ function RecipeInProgress({ requestApi, recipe }) {
           </button>
 
         </section>
-
       ))}
     </div>
   );
 }
-
 RecipeInProgress.propTypes = {
   requestApi: PropTypes.func,
 }.isRequired;
-
 const mapStateToProps = (state) => ({
   recipe: state.user.details,
 });
-
 const mapDispatchToProps = (dispatch) => ({
   requestApi: (path, id) => dispatch(detailsAction(path, id)),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeInProgress);

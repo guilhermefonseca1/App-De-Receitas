@@ -6,6 +6,7 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import { detailsAction } from '../redux/actions';
 import SimpleSlider from '../components/Carousel';
+import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
@@ -19,12 +20,6 @@ function RecipeDetails({ requestApi, recipe }) {
   const path = id[id.length - 2];
   const idRecipe = id[id.length - 1];
   const [item, setItem] = useState('');
-
-  // const [local, setLocal] = useState(false);
-  // const getToLocalStorage = () => {
-  //   const recipeLocal = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  //   return setLocal(recipeLocal);
-  // };
 
   const sendToLocalStorage = (key, obj, filter) => {
     const previous = JSON.parse(localStorage.getItem(key));
@@ -41,7 +36,6 @@ function RecipeDetails({ requestApi, recipe }) {
 
   const checkFavorite = (key) => {
     const previous = JSON.parse(localStorage.getItem(key));
-    console.log(previous);
     if (previous) {
       const test = previous.some((i) => i.id === idRecipe);
       setClicked(test);
@@ -53,7 +47,6 @@ function RecipeDetails({ requestApi, recipe }) {
     requestApi(path, idRecipe);
     setItem(path === 'foods' ? 'Meal' : 'Drink');
     checkFavorite('favoriteRecipes');
-    // getToLocalStorage()
   }, []);
 
   const renderIngredients = (elem) => {
@@ -64,12 +57,13 @@ function RecipeDetails({ requestApi, recipe }) {
         const measure = `strMeasure${i + 1}`;
         if (elem[e] !== null && elem[e].length > 0) {
           return (
-            <p
+            <tr
               key={ i }
               data-testid={ `${i}-ingredient-name-and-measure` }
             >
-              {`${elem[e]} - ${elem[measure]}`}
-            </p>
+              <td className="ingredient">{elem[e]}</td>
+              <td className="quantity">{elem[measure]}</td>
+            </tr>
           );
         }
         return '';
@@ -98,67 +92,92 @@ function RecipeDetails({ requestApi, recipe }) {
 
   return (
     <div>
-      { copied && <p>Link copied! </p>}
-      Recipe Details
+
       {recipe.map((e) => (
         <section key={ e[`id${item}`] } className="container-details">
-          <h1 data-testid="recipe-title">{e[`str${item}`]}</h1>
-          <h3 data-testid="recipe-category">
-            Category:
-            {e.strCategory}
-          </h3>
-          {path === 'drinks' && <h4 data-testid="recipe-category">{e.strAlcoholic}</h4>}
           <img
             src={ e[`str${item}Thumb`] }
             alt="Recipe"
-            width="30%"
             data-testid="recipe-photo"
+            className="img-details"
           />
-          <h3>Ingredients</h3>
-          <button
-            type="button"
-            data-testid="share-btn"
-            onClick={ () => {
-              getClipBoard(`http://localhost:3000${pathname}`);
-            } }
-          >
-            Share
-          </button>
+          <div className="container-title">
+            <h1
+              className="title-details"
+              data-testid="recipe-title"
+            >
+              {e[`str${item}`]}
 
-          <input
-            type="image"
-            data-testid="favorite-btn"
-            onClick={ () => {
-              const sliced = -1;
-              objToStore = {
-                id: e[`id${item}`],
-                type: path.slice(0, sliced),
-                nationality: getNationality(e),
-                category: e.strCategory,
-                alcoholicOrNot: getAlcohol(e),
-                name: e[`str${item}`],
-                image: e[`str${item}Thumb`] };
-              sendToLocalStorage('favoriteRecipes', objToStore, '');
-              setClicked(!clicked);
-              setSearch(search + 1);
-              if (search > 0) {
-                setSearch(0);
-                sendToLocalStorage('favoriteRecipes', objToStore, 'filter');
-              }
-            } }
-            src={ clicked ? blackHeartIcon : whiteHeartIcon }
-            alt="Favorito"
-          />
+            </h1>
+            <div>
+              <button
+                type="button"
+                data-testid="share-btn"
+                onClick={ () => {
+                  getClipBoard(`http://localhost:3000${pathname}`);
+                } }
+              >
+                <img src={ shareIcon } alt="Share" />
+              </button>
 
-          <div>{renderIngredients(e)}</div>
+              <button
+                type="button"
+                data-testid="favorite-btn"
+                onClick={ () => {
+                  const sliced = -1;
+                  objToStore = {
+                    id: e[`id${item}`],
+                    type: path.slice(0, sliced),
+                    nationality: getNationality(e),
+                    category: e.strCategory,
+                    alcoholicOrNot: getAlcohol(e),
+                    name: e[`str${item}`],
+                    image: e[`str${item}Thumb`] };
+                  sendToLocalStorage('favoriteRecipes', objToStore, '');
+                  setClicked(!clicked);
+                  setSearch(search + 1);
+                  if (search > 0) {
+                    setSearch(0);
+                    sendToLocalStorage('favoriteRecipes', objToStore, 'filter');
+                  }
+                } }
+              >
+                <img
+                  src={ clicked ? blackHeartIcon : whiteHeartIcon }
+                  alt="Favorito"
+                />
+              </button>
+              { copied && <p>Link copied! </p>}
+            </div>
+          </div>
+          <h3 data-testid="recipe-category" className="category">
+            {`Category: ${e.strCategory}`}
+          </h3>
+          {path === 'drinks'
+           && (
+             <h4
+               data-testid="recipe-category"
+               className="category"
+             >
+               {e.strAlcoholic}
 
-          <h3>Instructions</h3>
-          <p data-testid="instructions">{e.strInstructions}</p>
+             </h4>
+           )}
+
+          <h3 className="titles-details ">Ingredients</h3>
+          <table>
+            <tbody>
+              {renderIngredients(e)}
+            </tbody>
+          </table>
+
+          <h3 className="titles-details ">Instructions</h3>
+          <p data-testid="instructions" className="instructions">{e.strInstructions}</p>
           {path === 'foods'
               && <iframe
                 width="320"
                 height="220"
-                src={ e.strYoutube }
+                src={ e.strYoutube.replace('watch', 'embed') }
                 data-testid="video"
                 title={ e[`str${item}`] }
               />}

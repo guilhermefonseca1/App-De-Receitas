@@ -39,7 +39,7 @@ function SimpleSlider({ recipes }) {
               className="img-carousel"
             />
 
-            <p data-testid={ `${index}-recomendation-title` }>
+            <p className="title-carousel" data-testid={ `${index}-recomendation-title` }>
               {i[`str${keySuggestion}`]}
             </p>
           </div>

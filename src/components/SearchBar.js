@@ -17,12 +17,14 @@ function SearchBar({ dispatchApi, historyToProps }) {
     <div className="container-search">
       <div className="container-input">
         <input
+          className="input-search"
           type="text"
           data-testid="search-input"
           value={ inputValue }
           onChange={ ({ target }) => setInputValue(target.value) }
         />
         <button
+          className="btn-search"
           type="button"
           data-testid="exec-search-btn"
           onClick={ () => {
@@ -35,33 +37,41 @@ function SearchBar({ dispatchApi, historyToProps }) {
           Search
         </button>
       </div>
-      <label htmlFor="search">
-        <input
-          type="radio"
-          value="ingredient"
-          data-testid="ingredient-search-radio"
-          name="order"
-          onClick={ ({ target }) => { setOrder(target.value); } }
-        />
-        Ingredient
-        <input
-          type="radio"
-          value="name"
-          data-testid="name-search-radio"
-          name="order"
-          onClick={ ({ target }) => setOrder(target.value) }
-        />
-        Name
-        <input
-          type="radio"
-          value="first-letter"
-          data-testid="first-letter-search-radio"
-          name="order"
-          onClick={ ({ target }) => { setOrder(target.value); } }
-        />
-        Letter
-      </label>
-
+      <div className="container-radio">
+        <label htmlFor="ingredient" className="radio-search">
+          <input
+            id="ingredient"
+            type="radio"
+            value="ingredient"
+            data-testid="ingredient-search-radio"
+            name="order"
+            onClick={ ({ target }) => { setOrder(target.value); } }
+          />
+          Ingredient
+        </label>
+        <label htmlFor="name" className="radio-search">
+          <input
+            id="name"
+            type="radio"
+            value="name"
+            data-testid="name-search-radio"
+            name="order"
+            onClick={ ({ target }) => setOrder(target.value) }
+          />
+          Name
+        </label>
+        <label htmlFor="letter" className="radio-search">
+          <input
+            id="letter"
+            type="radio"
+            value="first-letter"
+            data-testid="first-letter-search-radio"
+            name="order"
+            onClick={ ({ target }) => { setOrder(target.value); } }
+          />
+          Letter
+        </label>
+      </div>
     </div>
   );
 }
